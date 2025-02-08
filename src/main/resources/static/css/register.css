@@ -106,7 +106,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #7a1a1a; /* Burdeos oscuro al pasar el mouse */
+    background-color: #410909; /* Burdeos oscuro al pasar el mouse */
 }
 
 #message {
@@ -121,7 +121,7 @@ p {
 }
 
 a {
-    color: #b03a2e; /* Rojo para los enlaces */
+    color: #ff3131; /* Rojo para los enlaces */
     text-decoration: none;
 }
 
