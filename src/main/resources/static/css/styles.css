@@ -8,9 +8,9 @@
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    overflow-y: auto;
-    height: 100vh;
+    overflow-y: visible; /* Asegura que se muestre todo */
 }
+
 
 h1 {
     font-size: 55px;
@@ -286,6 +286,10 @@ h1 {
     padding: 4rem 2rem;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 400px; /* Asegurar que tenga altura suficiente */
+    width: 100%;
+
 }
 
 .collections-container {
@@ -341,12 +345,13 @@ h1 {
 }
 
 .collection-item {
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    width: 100px; /* Ancho fijo para las imágenes en escritorio */
-    height: 100px; /* Altura fija para las imágenes en escritorio */
-    transition: transform 0.3s ease-in-out;
+    width: 170px; /* Ancho más pequeño */
+    height: 170px; /* Altura más pequeña */
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    transform: none !important;
+    background-color: rgba(255, 0, 0, 0.09); /* Rojo semitransparente */
 }
 
 .collection-item.large {
@@ -378,8 +383,9 @@ h1 {
 /* 🖱️ Efecto de desplazamiento suave */
 html, body {
     scroll-behavior: smooth;
-    overflow: hidden;
+    overflow-x: hidden; /* Mantiene oculto el desbordamiento horizontal pero permite el vertical */
 }
+
 
 /* 🌟 Efecto de aparición suave */
 .collection-item {
