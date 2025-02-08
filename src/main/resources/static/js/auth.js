@@ -23,4 +23,9 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         console.error("Error en el login:", error);
         document.getElementById("message").textContent = error.message;
     }
+
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+        menu.classList.toggle('show');
+    }
 });

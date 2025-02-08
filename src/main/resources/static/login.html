@@ -4,25 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión - Pawzy</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
 
-<div class="login-container">
-  <h2>Iniciar Sesión</h2>
-  <form id="loginForm">
-    <label>Correo Electrónico</label>
-    <input type="email" id="email" placeholder="Tu correo" required>
+  <header class="header d-flex justify-content-between align-items-center">
+    <div class="logo d-flex align-items-center">
+        <img src="img/animals.png" alt="Logo" class="logo-img">
+        <img src="img/letraLogo.png" alt="Logo" class="logo-img">
+    </div>
+    <nav class="nav">
+        <button class="menu-toggle d-md-none" onclick="toggleMenu()">☰</button>
+        <div class="desktop-nav d-none d-md-flex">
+            <a href="register.html" class="nav-button nav-button--outline">Registrarse</a>
+        </div>
+    </nav>
+  </header>
 
-    <label>Contraseña</label>
-    <input type="password" id="password" placeholder="Tu contraseña" required>
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <label>Correo Electrónico</label>
+      <input type="email" id="email" placeholder="Tu correo" required>
 
-    <button type="submit">Ingresar</button>
-  </form>
-  <p id="message"></p>
-  <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
-</div>
+      <label>Contraseña</label>
+      <input type="password" id="password" placeholder="Tu contraseña" required>
 
-<script src="js/auth.js"></script>
+      <button type="submit">Ingresar</button>
+    </form>
+    <p id="message"></p>
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.querySelector('.menu');
+      menu.classList.toggle('show');
+    }
+  </script>
 </body>
 </html>

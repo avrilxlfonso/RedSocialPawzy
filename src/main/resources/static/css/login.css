@@ -1,0 +1,172 @@
+/* Estilos generales del body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8; /* Color de fondo claro */
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos generales del header */
+.header {
+    background-color: #7a1a1a; /* Burdeos oscuro */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px; /* Ajusta la altura según sea necesario */
+    margin-right: 10px; /* Espacio entre las imágenes del logo */
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Ocultar por defecto en pantallas grandes */
+}
+
+.desktop-nav {
+    display: flex;
+}
+
+.nav-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #b03a2e; /* Rojo */
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #b03a2e; /* Rojo */
+    color: white;
+}
+
+/* Estilos del contenedor de inicio de sesión */
+.login-container {
+    width: 300px;
+    margin: 50px auto; /* Ajusta el margen superior según sea necesario */
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenedor */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #7a1a1a; /* Burdeos oscuro */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #b03a2e; /* Rojo más claro */
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #b03a2e; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #7a1a1a; /* Burdeos oscuro al pasar el mouse */
+}
+
+#message {
+    color: #b03a2e; /* Rojo */
+    text-align: center;
+    margin-top: 10px;
+}
+
+p {
+    text-align: center;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+a {
+    color: #b03a2e; /* Rojo */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostrar el botón de menú en pantallas pequeñas */
+    }
+
+    .desktop-nav {
+        display: none; /* Ocultar la navegación de escritorio en pantallas pequeñas */
+    }
+}
+
+/* Estilos para el menú desplegable (opcional) */
+.menu {
+    display: none; /* Ocultar el menú por defecto */
+    position: absolute;
+    top: 60px; /* Ajusta según la altura del header */
+    right: 20px;
+    background-color: #f8f8f8; /* Fondo claro para el menú */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.menu.show {
+    display: block; /* Mostrar el menú cuando se activa */
+}
+
+.menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #7a1a1a; /* Burdeos oscuro */
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background-color: #b03a2e; /* Rojo */
+    color: white;
+}
