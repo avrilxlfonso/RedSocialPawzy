@@ -1,0 +1,622 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.landing-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 55px;
+    color: #6b4f4f;
+    font-family: 'Roboto';
+}
+
+/* Cabecera */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #6e3c3c;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+.nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #a37c7c;
+    color: #fff;
+    font-weight: bold;
+}
+
+.nav-button--outline {
+    background-color: transparent;
+    border: 2px solid #a37c7c;
+    color: #ffffff;
+}
+
+/* 🔥 Estilo Pinterest */
+.hero-section {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ba4242;
+}
+
+.pinterest-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 1200px;
+    margin: auto;
+    justify-content: center;
+}
+
+.column {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pinterest-item {
+    width: 100%; /* Asegura que las imágenes ocupen el ancho completo */
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.pinterest-item:hover {
+    transform: scale(1.05);
+}
+
+/* 🔽 Indicador Scroll Down */
+.scroll-down-indicator {
+    margin-top: 20px;
+    font-size: 54px;
+    font-weight: bold;
+    color: #a37c7c;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* 🔥 Sección de información adicional */
+.info-section {
+    text-align: center;
+    padding: 2rem;
+    color: #4c0f0f;
+}
+
+.info-section h2 {
+    font-size: 2rem;
+}
+
+.info-section p {
+    font-size: 1.2rem;
+}
+
+/* Modal General */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+/* 🔹 Estilo Base para Ambos Modales */
+.modal-content {
+    width: 90%;
+    max-width: 400px;
+    padding: 2rem;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #fff;
+}
+
+/* 🔥 Estilo Diferenciado para el Modal de Inicio de Sesión */
+#loginModal .modal-content {
+    background-color: #bf6d6d; /* Burdeos oscuro */
+    color: white;
+    border: 2px solid #822c2c;
+}
+
+/* 🔥 Estilo Diferenciado para el Modal de Registro */
+#registerModal .modal-content {
+    background-color: #3c1212; /* Rosa marrón más suave */
+    color: white;
+    border: 2px solid #a04a4a;
+}
+
+/* ✅ Botón de Cierre */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.close-button:hover {
+    color: #ffcccc;
+}
+
+/* ✅ Mejorar los Botones del Formulario */
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal-content .btn-submit {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 🔹 Botón Diferenciado para Login */
+#loginModal .btn-submit {
+    background-color: #ffdddd;
+    color: #822c2c;
+}
+
+#loginModal .btn-submit:hover {
+    background-color: #f2b6b6;
+}
+
+/* 🔹 Botón Diferenciado para Registro */
+#registerModal .btn-submit {
+    background-color: #f9c7c7;
+    color: #a04a4a;
+}
+
+#registerModal .btn-submit:hover {
+    background-color: #f4a8a8;
+}
+.switch-text {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+.switch-text a {
+    color: #ffdddd;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.switch-text a:hover {
+    text-decoration: underline;
+    color: #f4a8a8;
+}
+
+
+
+/* 🔥 Estilos del Pie de Página */
+.footer {
+    background-color: #390d0d;
+    padding: 1.5rem 0;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #c50228; /* Color rojo similar al de Pinterest */
+}
+
+.footer-text {
+    font-size: 12px;
+    color: #b53939;
+}
+
+/* 🌟 Sección de Colecciones */
+.collections-section {
+    background-color: #701921; /* Color de fondo */
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.collections-container {
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* 📜 Texto de la sección */
+.collections-text {
+    max-width: 40%;
+    text-align: center; /* Centrar texto */
+}
+
+.collections-text h2 {
+    font-size: 1.5rem; /* Tamaño de texto más pequeño */
+    color: #ffffff;
+}
+
+.collections-text p {
+    font-size: 1rem; /* Tamaño de texto más pequeño */
+    color: #c55965;
+    margin-bottom: 1rem;
+}
+
+.explore-button {
+    background-color: #2e0b10; /* Rojo Pinterest */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.explore-button:hover {
+    background-color: #cd4f55;
+}
+
+/* 🖼️ Diseño de las colecciones */
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas más grandes */
+    gap: 10px; /* Espacio entre las imágenes */
+}
+
+@media (max-width: 768px) {
+    .collections-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
+    }
+}
+
+.collection-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100px; /* Ancho fijo para las imágenes en escritorio */
+    height: 100px; /* Altura fija para las imágenes en escritorio */
+    transition: transform 0.3s ease-in-out;
+}
+
+.collection-item.large {
+    width: 150px; /* Ancho más grande para algunas imágenes */
+    height: 150px; /* Altura más grande para algunas imágenes */
+}
+
+.collection-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.collection-item:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+.collection-title {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8rem; /* Tamaño de texto más pequeño */
+    border-radius: 5px;
+}
+
+/* 🖱️ Efecto de desplazamiento suave */
+html, body {
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+/* 🌟 Efecto de aparición suave */
+.collection-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.collection-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Sección "Busca una idea" */
+.search-idea-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 3rem;
+    background-color: #f5e1da;
+}
+
+.search-idea-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.search-images {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-main-image {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.search-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    color: #6e3c3c;
+}
+
+.search-secondary-images {
+    display: flex;
+    gap: 10px;
+}
+
+.search-secondary-images img {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.search-text {
+    max-width: 500px;
+    margin-bottom: 20px; /* Agrega margen inferior para separar del contenido de las imágenes */
+}
+
+.search-text h2 {
+    font-size: 2rem;
+    color: #8a2d2d;
+}
+
+.search-text p {
+    font-size: 1.2rem;
+    color: #6e3c3c;
+}
+
+.explore-button {
+    background-color: #c73939;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.explore-button:hover {
+    background-color: #a32727;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-idea-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .search-idea-container {
+        flex-direction: column;
+    }
+
+    .search-images {
+        align-items: center;
+    }
+
+    .search-main-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .search-secondary-images img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .search-text h2 {
+        font-size: 1.8rem;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap; /* Permite que las columnas se ajusten */
+    }
+    .col-6 {
+        flex: 0 0 50%; /* Dos columnas en móviles */
+        max-width: 50%; /* Limita el ancho a 50% */
+    }
+    .pinterest-item {
+        height: auto; /* Mantiene la proporción de las imágenes */
+        margin-bottom: 10px; /* Espacio entre las imágenes */
+    }
+
+    .collections-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
+    }
+
+    .collection-item {
+        height: 120px; /* Altura más pequeña para móviles */
+    }
+}
+
+.menu-toggle {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -250px; /* Oculto por defecto a la derecha */
+    width: 250px;
+    height: 100%;
+    background-color: #6e3c3c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    transition: right 0.3s ease; /* Cambia a right */
+    z-index: 1000;
+}
+
+.side-menu.open {
+    right: 0; /* Mostrar el menú */
+}
+
+.desktop-nav {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none; /* Ocultar botones en móvil */
+    }
+}
+
+.close-menu {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-top: 1rem; /* Espacio superior para el botón de cerrar */
+}
+
+.side-menu .nav-button {
+    margin-bottom: 10px; /* Ajusta este valor según la distancia que desees */
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 1s ease-in-out; /* Suaviza el desplazamiento */
+    will-change: transform;
+}
+
+.carousel {
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-item {
+    flex: 0 0 calc(20% - 10px); /* 5 imágenes visibles en desktop */
+}
+
+.carousel img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        flex: 0 0 calc(33.33% - 10px); /* 3 imágenes en móviles */
+    }
+}
