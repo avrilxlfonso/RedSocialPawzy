@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const giphyApiKey = "qKsm6AK9ZX5iP02bXik5nvoxFh8dqrtL";
 
     const apis = [
-        { url: `https://api.thedogapi.com/v1/images/search?limit=50&api_key=${dogApiKey}`, key: "url" },
+       // { url: `https://api.thedogapi.com/v1/images/search?limit=50&api_key=${dogApiKey}`, key: "url" },
         { url: `https://api.thecatapi.com/v1/images/search?limit=50&api_key=${catApiKey}`, key: "url" },
         { url: "https://cataas.com/api/cats?limit=50", key: "_id", prefix: "https://cataas.com/cat/" },
         { url: `https://api.giphy.com/v1/gifs/search?api_key=${giphyApiKey}&q=cute+pets&limit=30&rating=g`, key: "images.original.url" },
@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         img.onerror = function () {
             console.warn(`No se pudo cargar: ${imgSrc}`);
+            img.remove(); // Eliminar la imagen si no se carga
         };
 
         img.addEventListener("click", () => openModal(imgSrc));
@@ -85,12 +86,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("imageModal").style.display = "none";
     });
 
-    // ❤️ **Función para "Me Gusta"**
-    let likes = 0;
-    document.getElementById("likeButton").addEventListener("click", () => {
-        likes++;
-        document.getElementById("likeCount").textContent = likes;
+    // ❤️ **Funcionalidad del botón "Me Gusta"**
+    document.querySelector(".like-container").addEventListener("click", function () {
+        const likeIcon = document.getElementById("likeIcon");
+        const likeCount = document.getElementById("likeCount");
+
+        if (likeIcon.src.includes("heart-empty.png")) {
+            likeIcon.src = "img/heart-filled.png"; // Imagen del corazón lleno
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+        } else {
+            likeIcon.src = "img/heart-empty.png"; // Imagen del corazón vacío
+            likeCount.textContent = parseInt(likeCount.textContent) - 1;
+        }
     });
+
 
     // 💬 **Agregar comentarios**
     document.getElementById("addCommentButton").addEventListener("click", () => {

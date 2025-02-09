@@ -12,7 +12,6 @@
 <div class="feed-container">
     <!-- Barra superior de búsqueda -->
     <header class="feed-header">
-        <img src="img/pawzylogo.png" alt="Logo Pawzy" class="feed-logo">
         <input type="text" class="feed-search" placeholder="Buscar">
         <div class="feed-user" onclick="goToProfile()">
             <span class="user-initial">L</span>
@@ -21,6 +20,7 @@
 
     <!-- Barra lateral con favicons -->
     <aside class="feed-sidebar">
+        <img src="img/pawzylogo.png" alt="Logo Pawzy" class="feed-logo">
         <button class="sidebar-button"><img src="img/home.png" alt="Inicio"></button>
         <button class="sidebar-button"><img src="img/compass.png" alt="Explorar"></button>
         <button class="sidebar-button"><img src="img/file-upload.png" alt="Añadir"></button>
@@ -37,13 +37,26 @@
     <div id="imageModal" class="modal-overlay">
         <div class="modal-content">
             <button class="close-button">&times;</button>
-            <img id="modalImage" src="" alt="Imagen seleccionada">
-            <div class="modal-info">
-                <button id="likeButton" class="like-button">❤️ Me gusta <span id="likeCount">0</span></button>
-                <h3>Comentarios</h3>
-                <div id="commentSection"></div>
-                <input type="text" id="commentInput" placeholder="Añadir un comentario...">
-                <button id="addCommentButton">Comentar</button>
+            <div class="modal-body">
+                <!-- Imagen -->
+                <img id="modalImage" src="" alt="Imagen seleccionada">
+
+                <!-- Información y Comentarios -->
+                <div class="modal-info">
+                    <!-- Sección de me gusta -->
+                    <div class="like-container">
+                        <img id="likeIcon" src="img/heart-empty.png" alt="Me gusta" class="like-icon">
+                        <span id="likeCount">0</span>
+                    </div>
+
+                    <!-- Sección de comentarios -->
+                    <div class="comments-section">
+                        <h3>Comentarios</h3>
+                        <div id="commentSection"></div>
+                        <input type="text" id="commentInput" placeholder="Añadir un comentario...">
+                        <button id="addCommentButton">Comentar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
