@@ -117,3 +117,80 @@
     }
 }
 
+/* 🔥 Modal de imagen */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-info {
+    margin-top: 10px;
+}
+
+.like-button {
+    background: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.like-button:active {
+    background: darkred;
+}
+
+#commentSection {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 10px;
+    text-align: left;
+}
+
+#commentInput {
+    width: 80%;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+#addCommentButton {
+    padding: 5px 10px;
+    margin-top: 10px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

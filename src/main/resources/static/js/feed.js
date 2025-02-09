@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.warn(`No se pudo cargar: ${imgSrc}`);
         };
 
+        img.addEventListener("click", () => openModal(imgSrc));
+
         feedGrid.appendChild(img);
     }
 
@@ -69,4 +71,39 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
         console.error("Error general al cargar imágenes:", error);
     }
+
+    // 🖼️ **Funcionalidad de Modal**
+    function openModal(imgSrc) {
+        const modal = document.getElementById("imageModal");
+        document.getElementById("modalImage").src = imgSrc;
+        document.getElementById("likeCount").textContent = "0"; // Reiniciar likes
+        document.getElementById("commentSection").innerHTML = ""; // Reiniciar comentarios
+        modal.style.display = "flex";
+    }
+
+    document.querySelector(".close-button").addEventListener("click", () => {
+        document.getElementById("imageModal").style.display = "none";
+    });
+
+    // ❤️ **Función para "Me Gusta"**
+    let likes = 0;
+    document.getElementById("likeButton").addEventListener("click", () => {
+        likes++;
+        document.getElementById("likeCount").textContent = likes;
+    });
+
+    // 💬 **Agregar comentarios**
+    document.getElementById("addCommentButton").addEventListener("click", () => {
+        const commentInput = document.getElementById("commentInput");
+        const commentText = commentInput.value.trim();
+
+        if (commentText !== "") {
+            const commentSection = document.getElementById("commentSection");
+            const comment = document.createElement("p");
+            comment.textContent = commentText;
+            commentSection.appendChild(comment);
+            commentInput.value = "";
+        }
+    });
+
 });
