@@ -1,25 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const feedGrid = document.getElementById("feed-grid");
 
-    // 📌 Definir columnas dinámicas según el tamaño de pantalla
-    const numColumns = window.innerWidth > 768 ? 4 : 2;
-    const columns = Array.from({ length: numColumns }, () => document.createElement("div"));
-
-    columns.forEach(col => {
-        col.classList.add("feed-column");
-        feedGrid.appendChild(col);
-    });
-
-    // 📌 Lista de imágenes locales
-    const localImages = [
-        "img/Bird.jpg", "img/bird1.jpg", "img/bunny.jpg", "img/bunny2.jpg",
-        "img/cat-1.jpg", "img/cat.jpg", "img/cat2.jpg", "img/dog.jpg",
-        "img/dog2.jpg", "img/dog3.jpg", "img/erizo.jpg", "img/fox.jpg",
-        "img/funnydogs.jpg", "img/hamsterpose.jpg", "img/hamsterpose2.jpg",
-        "img/hamsterpose3.jpg", "img/nutria.jpg", "img/penguin.jpg"
-    ];
-
-    // 📌 APIs para imágenes y GIFs
+    // 📌 APIs para imágenes
     const catApiKey = "live_Nm6bVfMqfTDbrQJzldTBUnqCndZbJXa4ti2raXU38uruWk0dvtOdzDpOtD4vYEsI";
     const dogApiKey = "live_fmdtm2fpk3rOHjuoS5MRZ3LA5LTqzaeGySnBkVtm2Vi9Fp4819Ppo8tVoeagwkl1";
     const giphyApiKey = "qKsm6AK9ZX5iP02bXik5nvoxFh8dqrtL";
@@ -54,27 +36,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
 
         img.onerror = function () {
-            console.warn(`No se pudo cargar: ${imgSrc}, usando imagen local.`);
-            img.src = "img/fallback.jpg"; // Imagen de respaldo
+            console.warn(`No se pudo cargar: ${imgSrc}`);
         };
 
-        let minColIndex = 0;
-        let minHeight = columns[0].offsetHeight;
-
-        for (let i = 1; i < columns.length; i++) {
-            if (columns[i].offsetHeight < minHeight) {
-                minColIndex = i;
-                minHeight = columns[i].offsetHeight;
-            }
-        }
-
-        columns[minColIndex].appendChild(img);
+        feedGrid.appendChild(img);
     }
 
-    // 📷 **Carga inicial de imágenes locales (mínimo 50 imágenes desde el inicio)**
-    localImages.slice(0, 50).forEach(imgSrc => addImageToGrid(imgSrc));
-
-    // 🌐 **Carga imágenes de APIs sin afectar la estructura**
+    // 🌐 **Carga imágenes de APIs**
     try {
         const results = await Promise.allSettled(apis.map(api => fetch(api.url).then(res => res.json())));
 
@@ -101,33 +69,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (error) {
         console.error("Error general al cargar imágenes:", error);
     }
-
-    // 🖼️ **Cargar más imágenes cuando el usuario hace scroll hacia abajo**
-    let loading = false;
-    const observer = new IntersectionObserver(
-        async (entries) => {
-            const lastImage = entries[0];
-
-            if (lastImage.isIntersecting && !loading) {
-                loading = true;
-
-                // 🚀 Cargar más imágenes sin que las anteriores salten
-                try {
-                    const moreImages = await fetch("https://dog.ceo/api/breeds/image/random/10")
-                        .then(res => res.json())
-                        .then(data => data.message);
-
-                    moreImages.forEach(imgSrc => addImageToGrid(imgSrc));
-
-                } catch (error) {
-                    console.error("Error cargando más imágenes:", error);
-                }
-
-                setTimeout(() => { loading = false; }, 1500);
-            }
-        },
-        { threshold: 0.5 }
-    );
-
-    observer.observe(feedGrid.lastElementChild);
 });
