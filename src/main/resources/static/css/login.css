@@ -23,8 +23,9 @@ body {
 }
 
 .logo-img {
-    height: 50px; /* Ajusta la altura según sea necesario */
-    margin-right: 10px; /* Espacio entre las imágenes del logo */
+    width: 100px;
+    height: auto;
+    margin-right: 0.5rem;
 }
 
 .nav {
@@ -60,10 +61,25 @@ body {
     color: white;
 }
 
+.logo-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 80px; /* Ajusta según sea necesario */
+}
+
+.img-logo {
+    max-width: 110px; /* Ajusta el ancho máximo */
+    max-height: 110px; /* Ajusta la altura máxima */
+    display: block;
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+
 /* Estilos del contenedor de inicio de sesión */
 .login-container {
     width: 300px;
-    margin: 50px auto; /* Ajusta el margen superior según sea necesario */
+    margin: 120px auto; /* Ajusta el margen superior según sea necesario */
     padding: 20px;
     background-color: #fff; /* Fondo blanco para el contenedor */
     border-radius: 8px;

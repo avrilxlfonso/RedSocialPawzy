@@ -19,10 +19,12 @@ public class SecurityConfig {
                         .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/feed.html", "/profile.html").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll() // ✅ Asegurar que /auth/user sea público
-                        .requestMatchers("/posts/**").authenticated()
+                        .requestMatchers("/posts/**", "/auth/**").authenticated()
                         .anyRequest().authenticated()
                 )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // 🔹 Manejo de sesión
                 .formLogin(login -> login.disable())
                 .httpBasic(basic -> basic.disable());
 
