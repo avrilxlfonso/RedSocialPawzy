@@ -32,6 +32,22 @@
             <!-- 📌 Imágenes de API se cargarán dinámicamente aquí -->
         </div>
     </main>
+
+    <!-- Modal de imagen -->
+    <div id="imageModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-button">&times;</button>
+            <img id="modalImage" src="" alt="Imagen seleccionada">
+            <div class="modal-info">
+                <button id="likeButton" class="like-button">❤️ Me gusta <span id="likeCount">0</span></button>
+                <h3>Comentarios</h3>
+                <div id="commentSection"></div>
+                <input type="text" id="commentInput" placeholder="Añadir un comentario...">
+                <button id="addCommentButton">Comentar</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="js/feed.js"></script>
