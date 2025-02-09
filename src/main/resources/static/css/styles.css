@@ -636,6 +636,74 @@ html, body {
     }
 }
 
+<<<<<<< HEAD
+
+/* Estilos para el banner de cookies */
+.cookie-banner {
+    position: fixed; /* Fijo en la parte inferior de la ventana */
+    bottom: 0; /* Alineado al fondo */
+    left: 0; /* Alineado a la izquierda */
+    right: 0; /* Alineado a la derecha */
+    background-color: #6F2C3E; /* Color burdeos */
+    color: #ffffff; /* Texto blanco */
+    padding: 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    z-index: 1000; /* Asegurarse de que esté por encima de otros elementos */
+    display: flex; /* Usar flexbox para alinear elementos */
+    flex-direction: column; /* Colocar elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+/* Estilos para los botones */
+.cookie-banner button {
+    background-color: #8B5A2B; /* Color marrón */
+    color: #ffffff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    margin: 0 5px; /* Espacio entre los botones */
+}
+
+/* Efecto hover para los botones */
+.cookie-banner button:hover {
+    background-color: #A0522D; /* Color marrón más claro al pasar el mouse */
+}
+
+/* Estilos para el enlace */
+.cookie-banner a {
+    color: #ffffff; /* Texto blanco */
+    text-decoration: underline; /* Subrayar el texto */
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+}
+
+/* Efecto hover para el enlace */
+.cookie-banner a:hover {
+    color: #ffcc00; /* Cambiar color al pasar el mouse */
+}
+
+/* Alinear los botones en una fila */
+.cookie-banner .cookie-buttons {
+    display: flex; /* Usar flexbox para alinear los botones en fila */
+    justify-content: center; /* Centrar los botones */
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.cookie-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(50, 50, 50, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+}
 /* Eliminar margen y padding de los contenedores */
 .collections-section, .footer {
     margin: 0;

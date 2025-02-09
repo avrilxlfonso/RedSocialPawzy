@@ -18,8 +18,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/feed.html", "/profile.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()                        
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/politica-cookies.html", "/privacidad.html","/condiciones.html").permitAll()
+                        .requestMatchers("/static/**", "/css/**", "/js/**", "/img/**").permitAll()                        
                         .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll() // ✅ Asegurar que /auth/user sea público
                         .requestMatchers("/posts/**", "/auth/**").authenticated()
                         .anyRequest().authenticated()
