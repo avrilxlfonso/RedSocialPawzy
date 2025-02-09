@@ -263,4 +263,33 @@
     }
 }
 
+/* Estilos para el scrollbar en navegadores WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 19px; /* Ancho del scrollbar */
+    height: 16px; /* Altura del scrollbar (para scroll horizontal) */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Fondo del track (parte donde se mueve el thumb) */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #6f4c3e; /* Color del thumb (parte que se arrastra) */
+    border-radius: 10px; /* Bordes redondeados del thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #5b3e30; /* Color del thumb al pasar el mouse */
+}
+
+/* Ocultar los botones de desplazamiento (triángulos) */
+::-webkit-scrollbar-button {
+    display: none; /* Oculta los botones de arriba y abajo */
+}
+
+/* Estilos para el scrollbar en Firefox */
+* {
+    scrollbar-width: auto; 
+    scrollbar-color: #6f4c3e transparent; /* Color del thumb y del track */
+}
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Preferencias de Cookies</title>
+    <link rel="stylesheet" href="css/cookies.css">
+</head>
+<body>
+
+    <div class="cookie-container">
+        <!-- 📜 Barra lateral de navegación de cookies -->
+        <div class="cookie-sidebar">
+            <h1 class="cookie-title">Pawzy</h1>
+            <h2 class="cookie-subtitle">Centro de preferencia de la privacidad</h2>
+            <ul class="cookie-menu">
+                <li class="cookie-tab active" data-tab="esenciales">Cookies esenciales</li>
+                <li class="cookie-tab" data-tab="analiticas">Cookies analíticas</li>
+                <li class="cookie-tab" data-tab="publicitarias">Cookies publicitarias</li>
+            </ul>
+        </div>
+
+        <!-- 📜 Contenido principal de cookies -->
+        <div class="cookie-content">
+            <div class="cookie-info">
+                <h2>POLÍTICA SOBRE COOKIES</h2>
+                <p>
+                    Pawzy utiliza cookies y otras tecnologías similares, propias y de terceros, para fines funcionales 
+                    (permitiendo la navegación en la web) y analíticos (para conocer el funcionamiento y uso de la web), 
+                    así como para mostrarte publicidad (tanto general como personalizada en base a un perfil elaborado a 
+                    partir de tus hábitos de navegación).
+                </p>
+                <p>
+                    Para administrar o deshabilitar estas cookies, haz clic en "Más información". 
+                    <strong>Las cookies necesarias</strong> garantizan que el contenido se carga eficientemente y permiten 
+                    el correcto funcionamiento de los servicios.
+                </p>
+            </div>
+
+            <!-- 🔹 Sección de Cookies Esenciales -->
+            <div id="esenciales" class="cookie-section active">
+                <h2>Cookies esenciales</h2>
+                <p>
+                    Estas cookies son necesarias para facilitar la correcta navegación por nuestro sitio web y aseguran que el contenido se carga eficazmente, 
+                    permitiendo la eficiente utilización de las diferentes opciones o servicios que existen.
+                </p>
+                <ul>
+                    <li><strong>A.</strong> Verificar que solo usuarios autenticados accedan a secciones privadas.</li>
+                    <li><strong>B.</strong> Proteger contra bots y redes de bots.</li>
+                    <li><strong>C.</strong> Detectar comportamientos inusuales para prevenir fraudes.</li>
+                </ul>
+            </div>
+
+            <!-- 🔹 Sección de Cookies Analíticas -->
+            <div id="analiticas" class="cookie-section">
+                <h2>Cookies analíticas</h2>
+                <p>
+                    Estas cookies son propias o de terceros y nos permiten realizar el seguimiento y análisis del comportamiento de los usuarios 
+                    de nuestro sitio web, como p.ej.: la navegación realizada en el sitio, el tiempo que pasan en el sitio, los clics y las acciones realizados 
+                    durante la sesión de navegación.
+                </p>
+                <p>
+                    La información recopilada es anónima y se utiliza para comprender mejor el comportamiento de los usuarios y tomar decisiones para mejorar el 
+                    rendimiento y la efectividad del sitio.
+                </p>
+                <label><input type="checkbox" id="analyticsCookies"> Habilitar Cookies Analíticas</label>
+            </div>
+
+            <!-- 🔹 Sección de Cookies Publicitarias -->
+            <div id="publicitarias" class="cookie-section">
+                <h2>Cookies publicitarias</h2>
+                <p>
+                    Permiten mostrar anuncios personalizados y realizar seguimiento de interacciones con contenido publicitario.
+                    Además, podemos procesar datos sobre anuncios y generar información basada en la combinación de datos propios y de terceros.
+                </p>
+                <label><input type="checkbox" id="adsCookies"> Habilitar Cookies Publicitarias</label>
+                <a href="#" class="cookie-link">Ver detalles del proveedor</a>
+            </div>
+
+            <!-- 🔹 Botones de acción -->
+            <div class="cookie-actions">
+                <button id="saveCookies" class="cookie-btn primary">Confirmar mis preferencias</button>
+                <button id="rejectCookies" class="cookie-btn secondary">Rechazarlas todas</button>
+                <button id="acceptCookies" class="cookie-btn secondary">Permitirlas todas</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/cookies.js"></script>
+</body>
+</html>
