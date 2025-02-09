@@ -9,7 +9,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
-            credentials: "include" // Importante para manejar sesiones
+            credentials: "include" // Asegura que se envían las cookies de sesión
         });
 
         const data = await response.json();
@@ -17,15 +17,19 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             throw new Error(data.error || "Error en el login");
         }
 
-        document.getElementById("message").textContent = data.message;
-        window.location.href = "feed.html"; // Redirigir a la página del feed
+        // 🔹 Guardar el usuario en localStorage
+        localStorage.setItem("userProfile", JSON.stringify({ username: data.username, email: data.email }));
+
+        // ✅ Redirigir al feed después del login exitoso
+        window.location.href = "feed.html";
     } catch (error) {
         console.error("Error en el login:", error);
         document.getElementById("message").textContent = error.message;
     }
-
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
-        menu.classList.toggle('show');
-    }
 });
+
+// 🔹 Función para alternar el menú (si tienes un menú desplegable)
+function toggleMenu() {
+    const menu = document.querySelector('.menu');
+    menu.classList.toggle('show');
+}

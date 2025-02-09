@@ -107,3 +107,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
 });
+
+function goToProfile() {
+    const userProfile = localStorage.getItem("userProfile");
+
+    if (userProfile) {
+        window.location.href = "profile.html";
+    } else {
+        alert("Debes iniciar sesión primero.");
+        window.location.href = "login.html";
+    }
+}
+
+// 🚀 **Redirigir a `profile.html` si el usuario está autenticado**
+document.querySelector(".feed-user").addEventListener("click", async function () {
+    try {
+        const response = await fetch("http://localhost:8080/auth/user", {
+            credentials: "include" // Importante para enviar la cookie de sesión
+        });
+
+        if (!response.ok) {
+            console.log("⚠️ Usuario no autenticado. Redirigiendo a login...");
+            window.location.href = "login.html";
+            return;
+        }
+
+        console.log("✅ Usuario autenticado. Redirigiendo a perfil...");
+        window.location.href = "profile.html";
+    } catch (error) {
+        console.error("❌ Error al obtener usuario:", error);
+    }
+});
+

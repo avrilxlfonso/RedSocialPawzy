@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-  <link rel="icon" href="data:," /> <!-- Esto le dice al navegador que no hay favicon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Pawzy</title>
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
+<div class="profile-container">
+    <header class="profile-header">
+        <img id="userAvatar" src="img/user.webp" alt="Avatar">
+        <h1 id="userName">Usuario</h1>
+        <p id="userEmail">Correo electrónico</p>
+        <button id="logoutButton">Cerrar Sesión</button>
+    </header>
 
+    <section class="upload-section">
+        <h2>Sube una imagen</h2>
+        <input type="file" id="fileInput">
+        <textarea id="descriptionInput" placeholder="Escribe una descripción..."></textarea>
+        <button id="uploadButton">Publicar</button>
+    </section>
+
+    <section class="posts-section">
+        <h2>Mis Publicaciones</h2>
+        <div id="userPosts" class="post-gallery"></div>
+    </section>
+</div>
+
+<script src="js/profile.js"></script>
 </body>
 </html>

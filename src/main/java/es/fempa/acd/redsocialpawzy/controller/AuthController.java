@@ -41,9 +41,11 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         if (user.isPresent() && userService.verifyPassword(request.getPassword(), user.get().getPassword())) {
             session.setAttribute("user", user.get()); // Guardamos el usuario en la sesión
+            System.out.println("✅ Usuario autenticado: " + user.get().getUsername()); // LOG para depuración
             response.put("message", "Login exitoso");
             return ResponseEntity.ok(response);
         } else {
+            System.out.println("❌ Fallo en el login: Credenciales incorrectas"); // LOG para depuración
             response.put("error", "Credenciales incorrectas");
             return ResponseEntity.status(401).body(response);
         }
@@ -51,6 +53,7 @@ public class AuthController {
 
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
+        System.out.println("🔴 Cerrando sesión...");
         session.invalidate(); // Cierra la sesión
         Map<String, String> response = new HashMap<>();
         response.put("message", "Logout exitoso");
@@ -60,9 +63,31 @@ public class AuthController {
     @GetMapping("/user")
     public ResponseEntity<?> getUserSession(HttpSession session) {
         User user = (User) session.getAttribute("user");
+
         if (user == null) {
+            System.out.println("⚠️ No hay usuario autenticado en la sesión.");
             return ResponseEntity.status(401).body("No hay usuario autenticado");
         }
+
+        System.out.println("✅ Usuario autenticado: " + user.getUsername());
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            System.out.println("⚠️ Intento de acceso al perfil sin autenticación");
+            return ResponseEntity.status(401).body("No hay usuario autenticado");
+        }
+
+        Map<String, Object> userProfile = new HashMap<>();
+        userProfile.put("id", user.getId());
+        userProfile.put("username", user.getUsername());
+        userProfile.put("email", user.getEmail());
+        userProfile.put("profileImage", "/img/user.webp");
+
+        System.out.println("✅ Perfil cargado para: " + user.getUsername());
+        return ResponseEntity.ok(userProfile);
     }
 }

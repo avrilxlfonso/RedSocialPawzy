@@ -3,6 +3,7 @@ package es.fempa.acd.redsocialpawzy.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,16 +14,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Deshabilita CSRF para pruebas
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/favicon.ico").permitAll()
-                        .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/feed.html").permitAll() // Permitir acceso público
-                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll() // Archivos estáticos
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout").permitAll() // Rutas públicas
-                        .anyRequest().authenticated() // Rutas protegidas
+                        .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/feed.html", "/profile.html").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll() // ✅ Asegurar que /auth/user sea público
+                        .requestMatchers("/posts/**").authenticated()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(login -> login.disable()) // Deshabilitar login de Spring Security
-                .httpBasic(basic -> basic.disable()); // Deshabilitar autenticación básica
+                .formLogin(login -> login.disable())
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
