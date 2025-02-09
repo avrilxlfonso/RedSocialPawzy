@@ -144,3 +144,76 @@ a:hover {
         display: none; /* Ocultar la navegación de escritorio en pantallas pequeñas */
     }
 }
+
+/* Estilos para el feed */
+.feed-body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8; /* Color de fondo claro */
+}
+
+.feed-header {
+    background-color: #7a1a1a; /* Burdeos oscuro */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feed-logo {
+    height: 50px; /* Ajusta la altura según sea necesario */
+}
+
+.feed-search {
+    width: 100%;
+    padding: 10px; /* Espacio para el campo de búsqueda */
+    margin-left: 10px; /* Espacio a la izquierda */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.feed-user {
+    display: flex;
+    align-items: center;
+}
+
+.user-initial {
+    background-color: #b03a2e; /* Rojo para el fondo del inicial */
+    color: white;
+    border-radius: 50%; /* Hacerlo circular */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para la barra lateral */
+.feed-sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.sidebar-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px; /* Espacio entre botones */
+}
+
+/* Estilos para el contenedor principal */
+.feed-main {
+    padding: 20px;
+}
+
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Estilo de cuadrícula */
+    gap: 10px; /* Espacio entre imágenes */
+}
+
+.feed-item {
+    width: 100%;
+    border-radius: 8px; /* Bordes redondeados para las imágenes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
