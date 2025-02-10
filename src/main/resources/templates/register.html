@@ -1,62 +1,34 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil - Pawzy</title>
-  <link rel="stylesheet" href="/css/profile.css">
+  <title>Registro</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<div class="container">
+  <h2>Registro</h2>
 
-<div class="profile-container">
-  <!-- 🔹 ENCABEZADO DEL PERFIL -->
-  <header class="profile-header">
-    <img id="userAvatar" th:src="${user.profileImage != null ? user.profileImage : '/img/default-avatar.png'}" alt="Avatar">
-    <h1 th:text="${user.username}">Usuario</h1>
-    <p th:text="${user.email}">Correo electrónico</p>
-    <a th:href="@{/auth/logout}">
-      <button>Cerrar Sesión</button>
-    </a>
-  </header>
+  <!-- Mensaje de error -->
+  <div th:if="${error}" class="error">
+    <p th:text="${error}"></p>
+  </div>
 
-  <!-- 🔹 SECCIÓN PARA SUBIR PUBLICACIONES -->
-  <section class="upload-section">
-    <form th:action="@{/posts/create}" method="post" enctype="multipart/form-data">
-      <div class="upload-box">
-        <label for="fileInput">
-          <i class="fas fa-upload"></i>
-          <p>Elige un archivo o arrástralo aquí</p>
-        </label>
-        <input type="file" name="image" id="fileInput" required>
-      </div>
+  <!-- Formulario de registro -->
+  <form th:action="@{/auth/register}" method="post" th:object="${authRequest}">
+    <label for="username">Usuario:</label>
+    <input type="text" id="username" name="username" th:field="*{username}" required>
 
-      <div class="description-container">
-        <h3>Título</h3>
-        <input type="text" name="title" id="titleInput" placeholder="Añade un título" required>
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required>
 
-        <h3>Descripción</h3>
-        <textarea name="description" id="descriptionInput" placeholder="Añade una descripción detallada" required></textarea>
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required>
 
-        <button type="submit">Publicar</button>
-      </div>
-    </form>
-  </section>
+    <button type="submit">Registrarse</button>
+  </form>
 
-  <!-- 🔹 SECCIÓN DE PUBLICACIONES DEL USUARIO -->
-  <section class="posts-section">
-    <h2>Mis Publicaciones</h2>
-
-    <div id="userPosts" class="post-gallery">
-      <div th:each="post : ${userPosts}" class="post-item">
-        <img th:src="${post.imageUrl}" alt="Publicación">
-        <p th:text="${post.description}"></p>
-      </div>
-
-      <!-- 🔹 Mostrar mensaje si el usuario no tiene publicaciones -->
-      <p th:if="${#lists.isEmpty(userPosts)}">No tienes publicaciones aún.</p>
-    </div>
-  </section>
+  <p>¿Ya tienes una cuenta? <a th:href="@{/login}">Inicia sesión aquí</a></p>
 </div>
-
 </body>
 </html>

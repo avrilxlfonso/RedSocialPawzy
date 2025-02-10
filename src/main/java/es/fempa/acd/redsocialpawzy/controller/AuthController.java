@@ -5,6 +5,8 @@ import es.fempa.acd.redsocialpawzy.model.User;
 import es.fempa.acd.redsocialpawzy.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,13 +66,24 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public String getUserProfile(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/auth/login";
+    public String getUserProfile(Model model) {
+        // 🔹 Obtener el usuario autenticado desde Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir
         }
 
+        String email = ((UserDetails) principal).getUsername();
+        User user = userService.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
+        }
+
+        // 🔹 Pasar el usuario a la vista
         model.addAttribute("user", user);
         return "profile";
     }
+
 }

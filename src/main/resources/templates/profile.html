@@ -7,20 +7,22 @@
   <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
+
 <div class="profile-container">
   <header class="profile-header">
-    <!-- ✅ Evita el error: Usa imagen por defecto si `user` es null -->
-    <img th:src="${user != null ? user.profileImage : '/img/default-avatar.png'}" alt="Avatar">
+    <!-- ✅ Verifica si el usuario tiene imagen de perfil -->
+
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
+
     <a href="/auth/logout">
       <button>Cerrar Sesión</button>
     </a>
   </header>
 
-  <!-- ✅ Formulario para subir imagen -->
+  <!-- ✅ Formulario para subir una imagen -->
   <section class="upload-section">
-    <form action="/posts/create" method="post" enctype="multipart/form-data">
+    <form th:action="@{/posts/create}" method="post" enctype="multipart/form-data">
       <div class="upload-box">
         <label for="fileInput">
           <i class="fas fa-upload"></i>
@@ -40,14 +42,17 @@
   <!-- ✅ Publicaciones del usuario -->
   <section class="posts-section">
     <h2>Mis Publicaciones</h2>
-    <div id="userPosts" class="post-gallery">
+
+    <p th:if="${userPosts == null or #lists.isEmpty(userPosts)}">No tienes publicaciones aún.</p>
+
+    <div th:if="${userPosts != null and not #lists.isEmpty(userPosts)}" class="post-gallery">
       <div th:each="post : ${userPosts}" class="post-item">
-        <img th:src="${post.imageUrl}" alt="Publicación">
+        <img th:src="@{${post.imageUrl}}" alt="Publicación">
         <p th:text="${post.description}"></p>
       </div>
-      <p th:if="${#lists.isEmpty(userPosts)}">No tienes publicaciones aún.</p>
     </div>
   </section>
 </div>
+
 </body>
 </html>

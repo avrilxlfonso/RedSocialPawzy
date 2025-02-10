@@ -1,15 +1,7 @@
 package es.fempa.acd.redsocialpawzy;
 
-import es.fempa.acd.redsocialpawzy.model.Post;
-import es.fempa.acd.redsocialpawzy.model.User;
-import es.fempa.acd.redsocialpawzy.repository.PostRepository;
-import es.fempa.acd.redsocialpawzy.repository.UserRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class RedSocialPawzyApplication {
