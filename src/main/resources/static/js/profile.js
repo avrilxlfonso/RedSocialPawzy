@@ -107,4 +107,25 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // 🔄 Cargar usuario al inicio
     fetchUserProfile();
+
+    const fileInput = document.getElementById("fileInput");
+    const uploadBox = document.querySelector(".upload-box");
+
+    fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                uploadBox.style.backgroundImage = `url(${e.target.result})`;
+                uploadBox.style.backgroundSize = "cover";
+                uploadBox.style.backgroundPosition = "center";
+                uploadBox.style.border = "2px solid #8b5a2b"; // Cambio de borde al seleccionar imagen
+                uploadBox.innerHTML = ""; // Elimina el texto para solo mostrar la imagen
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
 });
