@@ -54,7 +54,7 @@ public class AuthController {
     @GetMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpSession session) {
         System.out.println("🔴 Cerrando sesión...");
-        session.invalidate(); // Cierra la sesión
+        session.invalidate();
         Map<String, String> response = new HashMap<>();
         response.put("message", "Logout exitoso");
         return ResponseEntity.ok(response);

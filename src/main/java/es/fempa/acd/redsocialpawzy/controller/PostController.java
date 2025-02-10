@@ -19,7 +19,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    // 📌 Obtener publicaciones del usuario autenticado
+    // Obtener publicaciones del usuario autenticado
     @GetMapping("/user")
     public ResponseEntity<List<Post>> getUserPosts(HttpSession session) {
         User user = (User) session.getAttribute("user");

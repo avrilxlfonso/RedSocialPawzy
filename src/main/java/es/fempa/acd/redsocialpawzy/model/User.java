@@ -19,11 +19,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // ✅ Constructor vacío
     public User() {
     }
 
-    // ✅ Constructor con parámetros
     public User(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
@@ -31,7 +29,6 @@ public class User {
         this.password = password;
     }
 
-    // ✅ Getters y Setters
     public Long getId() {
         return id;
     }
