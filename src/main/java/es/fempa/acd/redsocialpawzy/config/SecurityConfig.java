@@ -22,11 +22,11 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/politica-cookies.html", "/politica-cookies.html", "/privacidad.html", "/condiciones.html").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/static/**").permitAll()                                              
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll() // ✅ Asegurar que /auth/user sea público
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll()
                         .requestMatchers("/posts/**", "/auth/**").authenticated()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // 🔹 Manejo de sesión
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // Manejo de sesión
                 .formLogin(login -> login.disable())
                 .httpBasic(basic -> basic.disable());
 

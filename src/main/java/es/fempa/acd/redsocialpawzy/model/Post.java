@@ -20,11 +20,9 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // ✅ Constructor vacío
     public Post() {
     }
 
-    // ✅ Constructor con parámetros
     public Post(Long id, String imageUrl, String description, User user) {
         this.id = id;
         this.imageUrl = imageUrl;
@@ -32,7 +30,6 @@ public class Post {
         this.user = user;
     }
 
-    // ✅ Getters y Setters
     public Long getId() {
         return id;
     }
