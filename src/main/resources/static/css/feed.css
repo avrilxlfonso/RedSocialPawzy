@@ -273,15 +273,41 @@
     .modal-content {
         flex-direction: column;
         width: 90%;
+        padding: 20px !important;
     }
 
     #modalImage {
         max-width: 100%;
+        border-radius: 10px;
     }
 
     .modal-info {
         padding-left: 0;
         margin-top: 15px;
+        width: 100%;
+    }
+
+    .modal-body {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .like-container {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .comments-section {
+        max-height: 200px;
+        width: 100%;
+    }
+
+    #commentInput {
+        width: 100%;
+    }
+
+    #addCommentButton {
+        width: 100%;
     }
 }
 
