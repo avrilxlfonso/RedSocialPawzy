@@ -5,89 +5,72 @@ import es.fempa.acd.redsocialpawzy.model.User;
 import es.fempa.acd.redsocialpawzy.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
     private UserService userService;
 
+    @GetMapping("/login")
+    public String showLoginPage(Model model) {
+        model.addAttribute("authRequest", new AuthRequest());
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String showRegisterPage(Model model) {
+        model.addAttribute("authRequest", new AuthRequest());
+        return "register";
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody AuthRequest request) {
+    public String register(@ModelAttribute AuthRequest request, Model model) {
         Optional<User> existingUser = userService.findByEmail(request.getEmail());
-        Map<String, String> response = new HashMap<>();
 
         if (existingUser.isPresent()) {
-            response.put("error", "El correo ya está registrado.");
-            return ResponseEntity.status(400).body(response);
+            model.addAttribute("error", "⚠️ El correo ya está registrado.");
+            return "register";
         }
 
         userService.registerUser(request.getUsername(), request.getEmail(), request.getPassword());
-        response.put("message", "Registro exitoso");
-        return ResponseEntity.ok(response);
+        model.addAttribute("success", "✅ Registro exitoso. ¡Ahora inicia sesión!");
+        return "login";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequest request, HttpSession session) {
+    public String login(@ModelAttribute AuthRequest request, HttpSession session, Model model) {
         Optional<User> user = userService.findByEmail(request.getEmail());
 
-        Map<String, String> response = new HashMap<>();
         if (user.isPresent() && userService.verifyPassword(request.getPassword(), user.get().getPassword())) {
-            session.setAttribute("user", user.get()); // Guardamos el usuario en la sesión
-            System.out.println("✅ Usuario autenticado: " + user.get().getUsername()); // LOG para depuración
-            response.put("message", "Login exitoso");
-            return ResponseEntity.ok(response);
+            session.setAttribute("user", user.get());
+            return "redirect:/auth/profile";
         } else {
-            System.out.println("❌ Fallo en el login: Credenciales incorrectas"); // LOG para depuración
-            response.put("error", "Credenciales incorrectas");
-            return ResponseEntity.status(401).body(response);
+            model.addAttribute("error", "❌ Credenciales incorrectas");
+            return "login";
         }
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<Map<String, String>> logout(HttpSession session) {
-        System.out.println("🔴 Cerrando sesión...");
+    public String logout(HttpSession session) {
         session.invalidate();
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Logout exitoso");
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/user")
-    public ResponseEntity<?> getUserSession(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            System.out.println("⚠️ No hay usuario autenticado en la sesión.");
-            return ResponseEntity.status(401).body("No hay usuario autenticado");
-        }
-
-        System.out.println("✅ Usuario autenticado: " + user.getUsername());
-        return ResponseEntity.ok(user);
+        return "redirect:/auth/login";
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile(HttpSession session) {
+    public String getUserProfile(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            System.out.println("⚠️ Intento de acceso al perfil sin autenticación");
-            return ResponseEntity.status(401).body("No hay usuario autenticado");
+            return "redirect:/auth/login";
         }
 
-        Map<String, Object> userProfile = new HashMap<>();
-        userProfile.put("id", user.getId());
-        userProfile.put("username", user.getUsername());
-        userProfile.put("email", user.getEmail());
-        userProfile.put("profileImage", "/img/user.webp");
-
-        System.out.println("✅ Perfil cargado para: " + user.getUsername());
-        return ResponseEntity.ok(userProfile);
+        model.addAttribute("user", user);
+        return "profile";
     }
 }

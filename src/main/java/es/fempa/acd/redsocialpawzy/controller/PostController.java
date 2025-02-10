@@ -5,44 +5,72 @@ import es.fempa.acd.redsocialpawzy.model.User;
 import es.fempa.acd.redsocialpawzy.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
-@RestController
+@Controller
 @RequestMapping("/posts")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    // Obtener publicaciones del usuario autenticado
+    // 🔹 Obtener publicaciones del usuario autenticado y mostrar en la vista de perfil
     @GetMapping("/user")
-    public ResponseEntity<List<Post>> getUserPosts(HttpSession session) {
+    public String getUserPosts(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return ResponseEntity.status(401).build();
+            return "redirect:/auth/login"; // Redirigir si no está autenticado
         }
+
         List<Post> posts = postService.getPostsByUser(user);
-        return ResponseEntity.ok(posts);
+        model.addAttribute("user", user);
+        model.addAttribute("userPosts", posts);
+
+        return "profile"; // Carga profile.html con las publicaciones del usuario
     }
 
+    // 🔹 Subir una nueva publicación
     @PostMapping("/create")
-    public ResponseEntity<Post> createPost(@RequestBody Post post, HttpSession session) {
+    public String createPost(
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("description") String description,
+            HttpSession session) {
+
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            System.out.println("⚠️ Usuario no autenticado al intentar crear un post");
-            return ResponseEntity.status(403).build(); // 403 Forbidden
+            return "redirect:/auth/login"; // Redirigir si no está autenticado
         }
 
+        // Guardar imagen en un directorio (esto se puede mejorar usando un servicio de almacenamiento en la nube)
+        String uploadDir = "src/main/resources/static/uploads/";
+        File uploadFolder = new File(uploadDir);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+
+        String imageUrl = "/uploads/" + image.getOriginalFilename();
+        try {
+            image.transferTo(new File(uploadDir + image.getOriginalFilename()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/auth/profile?error=upload_failed"; // Manejar error
+        }
+
+        // Guardar el post en la base de datos
+        Post post = new Post();
+        post.setImageUrl(imageUrl);
+        post.setDescription(description);
         post.setUser(user);
-        Post savedPost = postService.createPost(post);
-        System.out.println("✅ Post guardado: " + savedPost.getDescription());
+        postService.createPost(post);
 
-        return ResponseEntity.ok(savedPost);
+        return "redirect:/auth/profile"; // Redirigir al perfil después de subir la publicación
     }
-
 }

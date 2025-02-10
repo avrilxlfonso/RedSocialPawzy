@@ -14,20 +14,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Desactivamos CSRF para pruebas locales
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/favicon.ico").permitAll()
-                        .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/feed.html", "/profile.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()                        
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/politica-cookies.html", "/politica-cookies.html", "/privacidad.html", "/condiciones.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/static/**").permitAll()                                              
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout", "/auth/user").permitAll()
-                        .requestMatchers("/posts/**", "/auth/**").authenticated()
+                        // 🔹 Permitir acceso sin autenticación a estas rutas
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/auth/login",
+                                "/auth/register",
+                                "/auth/logout",
+                                "/politica-cookies",
+                                "/privacidad",
+                                "/condiciones"
+                        ).permitAll()
+                        // 🔹 Permitir acceso a archivos estáticos (CSS, JS, imágenes)
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/static/**").permitAll()
+                        // 🔹 Cualquier otra petición debe estar autenticada
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // Manejo de sesión
-                .formLogin(login -> login.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .formLogin(login -> login.disable()) // Deshabilitamos el login de Spring Security
                 .httpBasic(basic -> basic.disable());
 
         return http.build();
