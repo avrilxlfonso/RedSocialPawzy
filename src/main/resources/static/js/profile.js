@@ -128,4 +128,61 @@ document.addEventListener("DOMContentLoaded", async function () {
             reader.readAsDataURL(file);
         }
     });
+
+    const userAvatar = document.getElementById("userAvatar");
+    const fileInputProfile = document.createElement("input");
+    fileInputProfile.type = "file";
+    fileInputProfile.accept = "image/*";
+    fileInputProfile.style.display = "none";
+
+    const changeProfileButton = document.createElement("button");
+    changeProfileButton.innerText = "Modificar";
+    changeProfileButton.id = "changeProfileButton";
+
+    // Insertar el botón debajo de la imagen de perfil
+    userAvatar.insertAdjacentElement("afterend", changeProfileButton);
+
+    // Abrir el selector de archivos al hacer clic en el botón
+    changeProfileButton.addEventListener("click", function () {
+        fileInputProfile.click();
+    });
+
+    fileInputProfile.addEventListener("change", async function () {
+        const file = fileInputProfile.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = async function () {
+            const imageBase64 = reader.result; // Convertir imagen a Base64
+
+            // 📌 Enviar imagen al backend para actualizar perfil
+            try {
+                const response = await fetch("http://localhost:8080/auth/updateProfileImage", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ profileImage: imageBase64 }),
+                    credentials: "include"
+                });
+
+                if (!response.ok) throw new Error("❌ Error al actualizar imagen de perfil.");
+
+                userAvatar.src = imageBase64; // Mostrar nueva imagen de perfil
+                localStorage.setItem("userProfileImage", imageBase64); // Guardar en localStorage
+
+                alert("✅ Imagen de perfil actualizada con éxito");
+            } catch (error) {
+                console.error("❌ Error al actualizar imagen de perfil:", error);
+            }
+        };
+    });
+
+    // ✅ Mostrar imagen de perfil guardada en localStorage si está disponible
+    const savedProfileImage = localStorage.getItem("userProfileImage");
+    if (savedProfileImage) {
+        userAvatar.src = savedProfileImage;
+    }
+
+    // Insertar input en el documento (pero oculto)
+    document.body.appendChild(fileInputProfile);
 });

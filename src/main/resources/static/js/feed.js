@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const likeCount = document.getElementById("likeCount");
 
         if (likeIcon.src.includes("heart-empty.png")) {
-            likeIcon.src = "img/heart-filled.png"; // Imagen del corazón lleno
+            likeIcon.src = "img/heart.png"; // Imagen del corazón lleno
             likeCount.textContent = parseInt(likeCount.textContent) + 1;
         } else {
             likeIcon.src = "img/heart-empty.png"; // Imagen del corazón vacío
