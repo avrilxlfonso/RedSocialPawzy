@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const feedGrid = document.getElementById("feed-grid");
+   // const feedGrid = document.getElementById("feed-grid");
 
     const numColumns = window.innerWidth > 768 ? 4 : 2;
     const columns = Array.from({ length: numColumns }, () => document.createElement("div"));
 
-    columns.forEach(col => {
-        col.classList.add("feed-column");
-        feedGrid.appendChild(col);
-    });
+    //columns.forEach(col => {
+    //    col.classList.add("feed-column");
+    //    feedGrid.appendChild(col);
+    //});
 
     // 📸 Imágenes locales
     const localImages = [
