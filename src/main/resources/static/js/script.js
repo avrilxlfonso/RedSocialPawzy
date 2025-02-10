@@ -73,3 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error(`Error cargando imágenes de ${api.url}:`, error));
     });
 });
+function toggleMenu() {
+    const menu = document.getElementById("mobile-menu");
+    menu.classList.toggle("open"); // Alternar la clase para mostrar/ocultar el menú
+}

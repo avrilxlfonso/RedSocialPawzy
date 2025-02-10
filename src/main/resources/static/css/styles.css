@@ -563,7 +563,7 @@ html, body {
 .side-menu {
     position: fixed;
     top: 0;
-    right: -250px; /* Oculto por defecto a la derecha */
+    right: -250px; /* Oculto fuera de la pantalla */
     width: 250px;
     height: 100%;
     background-color: #6e3c3c;
@@ -571,12 +571,12 @@ html, body {
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
-    transition: right 0.3s ease; /* Cambia a right */
+    transition: right 0.3s ease-in-out;
     z-index: 1000;
 }
 
 .side-menu.open {
-    right: 0; /* Mostrar el menú */
+    right: 0;
 }
 
 .desktop-nav {
@@ -595,11 +595,14 @@ html, body {
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
-    margin-top: 1rem; /* Espacio superior para el botón de cerrar */
+    margin-bottom: 20px;
 }
 
 .side-menu .nav-button {
-    margin-bottom: 10px; /* Ajusta este valor según la distancia que desees */
+    display: block;
+    width: 80%;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .carousel-container {
