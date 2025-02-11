@@ -125,15 +125,15 @@
     .feed-sidebar {
         width: 50px;
     }
-    
+
     .feed-main {
         margin-left: 60px;
     }
-    
+
     .feed-item {
         max-height: 200px;
     }
-    
+
     .feed-grid {
         column-count: 2;
     }
@@ -231,7 +231,6 @@
 }
 
 #commentSection {
-    justify-content: first baseline;
     overflow-y: auto;
     background: #7E4B3A; /* Marrón más claro */
     padding: 10px;
@@ -337,7 +336,7 @@
 
 /* Estilos para el scrollbar en Firefox */
 * {
-    scrollbar-width: auto; 
+    scrollbar-width: auto;
     scrollbar-color: #6f4c3e transparent; /* Color del thumb y del track */
 }
 
