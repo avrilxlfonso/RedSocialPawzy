@@ -2,6 +2,8 @@ package es.fempa.acd.redsocialpawzy.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "posts")
 public class Post {
@@ -19,6 +21,13 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comentario> comentarios;
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
 
     public Post() {
     }
