@@ -34,10 +34,13 @@
     <div id="feed-grid" class="feed-grid">
       <!-- 🔹 Mostrar publicaciones con sus comentarios -->
       <div th:each="post : ${posts}" class="feed-item">
-        <img th:src="${post.imageUrl}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
+        <!-- Contenedor de imagen -->
+        <div class="image-container">
+          <img th:src="${post.imageUrl}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
+        </div>
 
-        <!-- 🔹 Botón de Like -->
-        <form th:action="@{/likes/toggle/{postId}(postId=${post.id})}" method="get">
+        <!-- 🔹 Botón de Like debajo de la imagen -->
+        <form th:action="@{/likes/toggle/{postId}(postId=${post.id})}" method="get" class="like-form">
           <button type="submit" class="like-button">
             ❤️ <span th:text="${#lists.size(post.likes)}">0</span>
           </button>
@@ -52,20 +55,31 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div class="modal-body">
-                <!-- 🔹 Imagen grande -->
-                <img th:src="${post.imageUrl}" id="modalImage" alt="Imagen seleccionada">
+                <!-- 🔹 Contenedor de imagen y comentarios -->
+                <div class="modal-body-container">
+                  <!-- Imagen grande -->
+                  <div class="modal-image-container">
+                    <img th:src="${post.imageUrl}" id="modalImage" alt="Imagen seleccionada">
+                  </div>
 
-                <!-- 🔹 Sección de comentarios -->
-                <h5>Comentarios</h5>
-                <ul>
-                  <li th:each="comentario : ${post.comentarios}">
-                    <strong th:text="${comentario.user.username}">Usuario</strong>:
-                    <span th:text="${comentario.contenido}">Contenido</span>
-                  </li>
-                </ul>
+                  <!-- 🔹 Sección de comentarios (a la derecha) -->
+                  <div class="comments-section">
+                    <h3>Comentarios</h3>
+                    <ul>
+                      <li th:each="comentario : ${post.comentarios}" class="comment-item">
+                        <strong th:text="${comentario.user.username}">Usuario</strong>:
+                        <span th:text="${comentario.contenido}">Contenido</span>
+                      </li>
+                    </ul>
+                    <!-- Si no hay comentarios -->
+                    <div th:if="${#lists.isEmpty(post.comentarios)}" class="no-comments">
+                      Aún no hay comentarios. ¡Sé el primero en comentar!
+                    </div>
+                  </div>
+                </div>
 
                 <!-- 🔹 Formulario para agregar un comentario -->
-                <form th:action="@{/comentarios/crear/{postId}(postId=${post.id})}" method="post">
+                <form th:action="@{/comentarios/crear/{postId}(postId=${post.id})}" method="post" class="comment-form">
                   <textarea name="contenido" placeholder="Escribe un comentario..." required></textarea>
                   <button type="submit">Comentar</button>
                 </form>

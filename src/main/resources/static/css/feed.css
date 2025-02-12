@@ -42,7 +42,7 @@
     width: 40%;
     padding: 8px;
     border-radius: 20px;
-    border: none;
+    border-color: #E8C6A7;
 }
 
 .feed-user {
@@ -55,7 +55,7 @@
     justify-content: center;
     font-size: 20px;
     font-weight: bold;
-    color: white;
+    background: #E8C6A7;
     margin-right: 20px;
 }
 
@@ -96,274 +96,158 @@
 }
 
 .feed-grid {
-    column-count: 5;
-    column-gap: 15px;
-}
-
-.feed-item {
-    width: 100%;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Imágenes de la API */
-.api-image {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.api-image:hover {
-    transform: scale(1.05);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .feed-sidebar {
-        width: 50px;
-    }
-
-    .feed-main {
-        margin-left: 60px;
-    }
-
-    .feed-item {
-        max-height: 200px;
-    }
-
-    .feed-grid {
-        column-count: 2;
-    }
-}
-
-/* Modal de imagen */
-.modal-overlay {
-    display: none; /* Se muestra cuando es necesario */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
     display: flex;
-    background: #a67c72 !important; /* Burdeos oscuro */
-    padding: 30px !important;
-    border-radius: 22px !important;
-    width: 70%;
-    max-width: 800px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden; /* Evita que el contenido del modal afecte el diseño */
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #E8C6A7; /* Beige */
-    cursor: pointer;
-}
-
-.close-button:hover {
-    color: #fff;
-}
-
-.modal-body {
-    display: flex;
-    width: 100%;
-    overflow: hidden; /* Evita que la imagen se modifique */
-}
-
-#modalImage {
-    max-width: 50%;
-    border-radius: 10px;
-}
-
-.modal-info {
-    flex: 1;
-    padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.like-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.like-icon {
-    width: 24px;
-    cursor: pointer;
-}
-
-#likeCount {
-    color: #E8C6A7; /* Beige */
-    font-size: 16px;
-}
-
-/* Estilo para la sección de comentarios */
-.comments-section {
-    background: #642424; /* Marrón oscuro */
-    padding: 15px;
-    border-radius: 8px;
-    height: 100%;
-    overflow-y: auto; /* Permite desplazarse solo en esta sección */
-    max-height: 300px; /* Limita la altura para que se desplace solo esta sección */
-}
-
-.comments-section h3 {
-    margin-bottom: 10px;
-    color: #F4E6D7; /* Beige claro */
-}
-
-#commentSection {
-    overflow-y: auto;
-    background: #7E4B3A; /* Marrón más claro */
-    padding: 10px;
-    border-radius: 5px;
-    color: #FFF8F0;
-    max-height: 200px; /* Ajuste para la altura de los comentarios */
-}
-
-/* Input de comentario */
-#commentInput {
-    width: calc(100% - 20px);
-    padding: 8px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #F4E6D7;
-    color: #3E0F12;
-}
-
-/* Botón para agregar comentario */
-#addCommentButton {
-    margin-top: 10px;
-    align-items: center;
-    width: 50%;
-    padding: 8px;
-    background: #8b2b2b; /* Marrón tostado */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#addCommentButton:hover {
-    background: #3b0b09; /* Marrón más claro */
-}
-
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    .modal-content {
-        flex-direction: column;
-        width: 90%;
-        padding: 20px !important;
-    }
-
-    #modalImage {
-        max-width: 100%;
-        border-radius: 10px;
-    }
-
-    .modal-info {
-        padding-left: 0;
-        margin-top: 15px;
-        width: 100%;
-    }
-
-    .modal-body {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .like-container {
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .comments-section {
-        max-height: 200px;
-        width: 100%;
-    }
-
-    #commentInput {
-        width: 100%;
-    }
-
-    #addCommentButton {
-        width: 100%;
-    }
-}
-
-/* Estilos para el scrollbar en navegadores WebKit (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-    width: 19px; /* Ancho del scrollbar */
-    height: 16px; /* Altura del scrollbar (para scroll horizontal) */
-}
-
-::-webkit-scrollbar-track {
-    background: transparent; /* Fondo del track (parte donde se mueve el thumb) */
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #6f4c3e; /* Color del thumb (parte que se arrastra) */
-    border-radius: 10px; /* Bordes redondeados del thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: #5b3e30; /* Color del thumb al pasar el mouse */
-}
-
-/* Ocultar los botones de desplazamiento (triángulos) */
-::-webkit-scrollbar-button {
-    display: none; /* Oculta los botones de arriba y abajo */
-}
-
-/* Estilos para el scrollbar en Firefox */
-* {
-    scrollbar-width: auto;
-    scrollbar-color: #6f4c3e transparent; /* Color del thumb y del track */
-}
-
-/* Añadido para organizar las imágenes sin scroll horizontal */
-.feed-grid {
-    display: flex;
-    flex-wrap: wrap; /* Permite que bajen de fila si no caben */
+    flex-wrap: wrap; /* Permite que las imágenes bajen de fila si no caben */
     justify-content: center; /* Centra los elementos en la fila */
     gap: 10px; /* Espacio entre las imágenes */
     max-width: 100%; /* Evita que se salga del ancho de la pantalla */
 }
 
+/* Estilo general del feed-item (contiene la imagen y el botón) */
 .feed-item {
-    width: 280px; /* Tamaño fijo de cada imagen */
-    height: 280px; /* Tamaño fijo para mantener uniformidad */
+    width: 280px;
+    height: auto;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #3A1E1E; /* Color de fondo para que se vea uniforme */
+    background: #3A1E1E; /* Color de fondo */
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de la imagen */
+.image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .feed-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Mantiene la proporción sin deformarse */
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    border-radius: 10px;
+}
+
+/* Botón de Like centrado y ocupando el máximo ancho disponible */
+.like-form {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    display: flex;
+    justify-content: center; /* Centra el botón */
+    margin-top: 10px;
+}
+
+.like-button {
+    background: #E8C6A7; /* Color claro como base */
+    border: 2px solid #E8C6A7;
+    color: #3E0F12; /* Color del texto */
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%; /* Ajusta el botón al 100% del contenedor */
+    max-width: 280px; /* Limita el ancho del botón al tamaño de la imagen */
+    text-align: center;
+}
+
+.like-button:hover {
+    background-color: #D4A379; /* Cambio de color al pasar el cursor */
+    border-color: #D4A379;
+    transform: scale(1.1); /* Efecto de agrandamiento */
+}
+
+.like-button:active {
+    transform: scale(0.95); /* Efecto al hacer clic */
+}
+
+/* Modal */
+.modal-body{
+    background-color: #593434;
+}
+.modal-body-container {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos a ambos lados */
+    gap: 20px; /* Espacio entre la imagen y los comentarios */
+    background-color: #3A1E1E; /* Fondo debajo de los comentarios */
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-image-container {
+    width: 45%; /* Limita el tamaño de la imagen */
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra suave */
+}
+
+/* Contenedor de comentarios */
+.comments-section {
+    flex: 1; /* Toma el espacio restante */
+    background-color: #593434; /* Fondo debajo de los comentarios */
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+    height: 300px;
+    margin-top: 20px; /* Espacio por encima de la sección de comentarios */
+}
+
+/* Formulario de comentarios */
+.comment-form {
+    margin-top: 20px; /* Espacio por encima del textarea */
 }
 
 
+.comment-item {
+    margin-bottom: 10px;
+    font-size: 14px; /* Ajustamos el tamaño de fuente */
+}
+
+.no-comments {
+    text-align: center;
+    font-style: italic;
+    color: #bbb;
+}
+
+/* Formulario de comentarios */
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #3E0F12;
+    font-size: 16px;
+    background-color: #6e4141;
+    color: rgba(255, 255, 255, 0.93);
+}
+
+.comment-form button {
+    padding: 10px 20px;
+    background-color: #E8C6A7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #3E0F12;
+    font-weight: bold;
+}
+
+.comment-form button:hover {
+    background-color: #D4A379;
+}
