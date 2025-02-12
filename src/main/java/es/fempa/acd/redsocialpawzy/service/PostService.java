@@ -23,7 +23,7 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAllWithLikes();
     }
 
     public Post obtenerPostPorId(Long postId) { return postRepository.findById(postId).orElse(null);}

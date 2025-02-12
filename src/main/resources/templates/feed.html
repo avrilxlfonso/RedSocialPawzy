@@ -36,6 +36,13 @@
       <div th:each="post : ${posts}" class="feed-item">
         <img th:src="${post.imageUrl}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
 
+        <!-- 🔹 Botón de Like -->
+        <form th:action="@{/likes/toggle/{postId}(postId=${post.id})}" method="get">
+          <button type="submit" class="like-button">
+            ❤️ <span th:text="${#lists.size(post.likes)}">0</span>
+          </button>
+        </form>
+
         <!-- 🔹 Modal de comentarios -->
         <div th:id="'modal-' + ${post.id}" class="modal fade" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
