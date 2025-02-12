@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Pawzy</title>
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="profile-container">
+  <header class="profile-header">
+    <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
+    <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
+    <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
+    <p>Likes Totales: <span th:text="${totalLikes}">0</span></p> <!-- ✅ Muestra total de likes -->
+
+    <a href="/auth/logout">
+      <button>Cerrar Sesión</button>
+    </a>
+  </header>
+
+  <!-- ✅ Publicaciones del usuario -->
+  <section class="posts-section">
+    <h2>Publicaciones</h2>
+
+    <p th:if="${posts == null or #lists.isEmpty(posts)}">No tienes publicaciones aún.</p>
+
+    <div th:if="${posts != null and not #lists.isEmpty(posts)}" class="post-gallery">
+      <div th:each="post : ${posts}" class="post-item">
+        <!-- ✅ Imagen que abre el modal -->
+        <img th:src="@{${post.imageUrl}}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
+
+        <p th:text="${post.description}"></p>
+
+        <!-- ✅ Botón de Like debajo de la imagen -->
+        <form th:action="@{/likes/toggle/{postId}(postId=${post.id})}" method="get" class="like-form">
+          <button type="submit" class="like-button">
+            ❤️ <span th:text="${#lists.size(post.likes)}">0</span>
+          </button>
+        </form>
+
+        <!-- ✅ Modal de comentarios e interacción -->
+        <div th:id="'modal-' + ${post.id}" class="modal fade" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Publicado por <strong th:text="${post.user.username}">Usuario</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <!-- ✅ Contenedor de imagen -->
+                <div class="modal-image-container">
+                  <img th:src="${post.imageUrl}" id="modalImage" alt="Imagen seleccionada">
+                </div>
+
+                <!-- ✅ Sección de comentarios -->
+                <div class="comments-section">
+                  <h3>Comentarios</h3>
+                  <ul>
+                    <li th:each="comentario : ${post.comentarios}" class="comment-item">
+                      <strong th:text="${comentario.user.username}">Usuario</strong>:
+                      <span th:text="${comentario.contenido}">Contenido</span>
+                    </li>
+                  </ul>
+
+                  <!-- ✅ Si no hay comentarios -->
+                  <div th:if="${#lists.isEmpty(post.comentarios)}" class="no-comments">
+                    Aún no hay comentarios. ¡Sé el primero en comentar!
+                  </div>
+                </div>
+
+                <!-- ✅ Formulario para agregar un comentario -->
+                <form th:action="@{/comentarios/crearPerfil/{postId}(postId=${post.id})}" method="post" class="comment-form">
+                  <textarea name="contenido" placeholder="Escribe un comentario..." required></textarea>
+                  <button type="submit">Comentar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> <!-- 🔹 Fin del modal -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

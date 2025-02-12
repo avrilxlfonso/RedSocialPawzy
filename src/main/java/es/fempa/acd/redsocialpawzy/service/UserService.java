@@ -1,6 +1,7 @@
 package es.fempa.acd.redsocialpawzy.service;
 
 import es.fempa.acd.redsocialpawzy.model.User;
+import es.fempa.acd.redsocialpawzy.repository.PostRepository;
 import es.fempa.acd.redsocialpawzy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,13 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private PostRepository postRepository;
+
+    public User findByPostId(Long postId) {
+        return postRepository.findAuthorByPostId(postId);
+    }
+
     public User registerUser(String username, String email, String password) {
         User user = new User();
         user.setUsername(username);
@@ -34,6 +42,10 @@ public class UserService {
         autoLogin(email, password);
 
         return user;
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public void autoLogin(String email, String password) {

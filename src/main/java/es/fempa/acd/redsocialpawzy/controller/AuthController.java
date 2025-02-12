@@ -105,6 +105,26 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
+    @GetMapping("/profile/{id}")
+    public String getUserProfileById(@PathVariable Long id, Model model) {
+        // 🔹 Buscar el usuario por ID
+        User user = userService.findById(id).orElse(null);
+
+        if (user == null) {
+            return "redirect:/posts"; // 🔹 Si no existe, redirigir al feed
+        }
+
+        // 🔹 Obtener publicaciones del usuario
+        List<Post> posts = postService.getPostsByUser(user);
+
+        // 🔹 Pasar el usuario y publicaciones a la vista
+        model.addAttribute("user", user);
+        model.addAttribute("posts", posts);
+
+        return "user"; // 🔹 Cargar la vista del perfil
+    }
+
+
     @GetMapping("/profile")
     public String getUserProfile(Model model) {
         // 🔹 Obtener el usuario autenticado desde Spring Security

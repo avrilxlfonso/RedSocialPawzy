@@ -73,4 +73,43 @@ public class ComentarioController {
 
         return "redirect:/posts"; // 🔹 Volver al feed después de comentar
     }
+
+    @PostMapping("/crearPerfil/{postId}")
+    public String crearComentarioPerfil(@PathVariable Long postId, @RequestParam("contenido") String contenido) {
+        // ✅ Obtener usuario autenticado desde Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir al login
+        }
+
+        String email = ((UserDetails) principal).getUsername();
+        User user = userService.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
+        }
+
+        // ✅ Buscar el post en la BD
+        Post post = postService.obtenerPostPorId(postId);
+        if (post == null) {
+            return "redirect:/posts"; // 🔹 Redirigir si el post no existe
+        }
+
+        // ✅ Crear comentario asegurando que el usuario se asigne correctamente
+        Comentario nuevoComentario = new Comentario();
+        nuevoComentario.setContenido(contenido);
+        nuevoComentario.setUser(user);  // ✅ Establecer el usuario
+        nuevoComentario.setPost(post);
+
+        System.out.println(user.toString());
+
+        User autor = userService.findByPostId(postId);
+
+        comentarioService.guardarComentario(nuevoComentario); // ✅ Guardar en BD
+
+        // ✅ Redirigir correctamente al perfil con la publicación específica
+        return "redirect:/auth/profile/" + autor.getId();
+    }
+
 }
