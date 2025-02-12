@@ -6,9 +6,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.file.Paths;
 
+/**
+ * Configuration class for Spring MVC.
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    /**
+     * Adds resource handlers for serving static resources.
+     *
+     * @param registry the ResourceHandlerRegistry object
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String uploadDir = Paths.get("uploads").toAbsolutePath().toUri().toString();

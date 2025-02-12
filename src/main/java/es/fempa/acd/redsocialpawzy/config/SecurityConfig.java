@@ -13,22 +13,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Configuration class for Spring Security.
+ */
 @Configuration
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
 
+    /**
+     * Constructor for SecurityConfig.
+     *
+     * @param userDetailsService the custom user details service
+     */
     public SecurityConfig(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Configures the security filter chain.
+     *
+     * @param http the HttpSecurity object
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // 🔹 Desactivar CSRF solo para pruebas locales
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for local testing
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( // 🔹 Rutas públicas
-                                "/", // 🔹 Permitir acceso al index sin autenticación
+                        .requestMatchers( // Public routes
+                                "/", // Allow access to index without authentication
                                 "/index.html",
                                 "/auth/login",
                                 "/auth/register",
@@ -36,35 +51,47 @@ public class SecurityConfig {
                                 "/privacidad",
                                 "/condiciones"
                         ).permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/uploads/**").permitAll() // 🔹 Permitir archivos estáticos
-                        .anyRequest().authenticated() // 🔹 Cualquier otra petición requiere autenticación
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/uploads/**").permitAll() // Allow static files
+                        .anyRequest().authenticated() // Any other request requires authentication
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 🔹 Mantener sesión activa
-                        .maximumSessions(1) // 🔹 Solo una sesión por usuario
-                        .expiredUrl("/auth/login?expired") // 🔹 Redirigir si la sesión expira
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Keep session active
+                        .maximumSessions(1) // Only one session per user
+                        .expiredUrl("/auth/login?expired") // Redirect if session expires
                 )
                 .formLogin(login -> login
-                        .loginPage("/auth/login") // 🔹 Página de login personalizada
-                        .defaultSuccessUrl("/posts", true) // 🔹 Si inicia sesión, se queda en `/`
+                        .loginPage("/auth/login") // Custom login page
+                        .defaultSuccessUrl("/posts", true) // Redirect to `/posts` on successful login
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout") // 🔹 URL para cerrar sesión
-                        .logoutSuccessUrl("/") // 🔹 Después del logout, volver al index
-                        .invalidateHttpSession(true) // 🔹 Invalidar sesión
-                        .deleteCookies("JSESSIONID") // 🔹 Borrar cookies
+                        .logoutUrl("/auth/logout") // URL to log out
+                        .logoutSuccessUrl("/") // Redirect to index after logout
+                        .invalidateHttpSession(true) // Invalidate session
+                        .deleteCookies("JSESSIONID") // Delete cookies
                         .permitAll()
                 );
 
         return http.build();
     }
 
+    /**
+     * Configures the password encoder.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configures the authentication manager.
+     *
+     * @param authenticationConfiguration the authentication configuration
+     * @return the authentication manager
+     * @throws Exception if an error occurs
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller class for handling comment-related requests.
+ */
 @Controller
 @RequestMapping("/comentarios")
 public class ComentarioController {
@@ -28,88 +31,95 @@ public class ComentarioController {
     @Autowired
     private UserService userService;
 
-    // 🔹 Obtener comentarios de un post
+    /**
+     * Retrieves comments for a specific post.
+     *
+     * @param postId the ID of the post
+     * @param model the model to add attributes to
+     * @return the view with the comments
+     */
     @GetMapping("/{postId}")
     public String obtenerComentarios(@PathVariable Long postId, Model model) {
         Post post = postService.obtenerPostPorId(postId);
         List<Comentario> comentarios = comentarioService.obtenerComentariosPorPost(post);
         model.addAttribute("post", post);
         model.addAttribute("comentarios", comentarios);
-        return "feed"; // 🔹 Retorna la vista con los comentarios
+        return "feed";
     }
 
-    // 🔹 Crear un nuevo comentario
+    /**
+     * Creates a new comment for a specific post.
+     *
+     * @param postId the ID of the post
+     * @param contenido the content of the comment
+     * @return the redirect URL after creating the comment
+     */
     @PostMapping("/crear/{postId}")
     public String crearComentario(@PathVariable Long postId, @RequestParam("contenido") String contenido) {
-        // ✅ Obtener usuario autenticado desde Spring Security
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof UserDetails)) {
-            return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir al login
+            return "redirect:/auth/login";
         }
 
         String email = ((UserDetails) principal).getUsername();
         User user = userService.findByEmail(email).orElse(null);
 
         if (user == null) {
-            return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
+            return "redirect:/auth/login";
         }
 
-        // ✅ Buscar el post en la BD
         Post post = postService.obtenerPostPorId(postId);
         if (post == null) {
-            return "redirect:/posts"; // 🔹 Redirigir si el post no existe
+            return "redirect:/posts";
         }
 
-        // ✅ Crear comentario asegurando que el usuario se asigne correctamente
         Comentario nuevoComentario = new Comentario();
         nuevoComentario.setContenido(contenido);
-        nuevoComentario.setUser(user);  // ✅ Establecer el usuario
+        nuevoComentario.setUser(user);
         nuevoComentario.setPost(post);
 
-        System.out.println(user.toString());
+        comentarioService.guardarComentario(nuevoComentario);
 
-        comentarioService.guardarComentario(nuevoComentario); // ✅ Guardar en BD
-
-        return "redirect:/posts"; // 🔹 Volver al feed después de comentar
+        return "redirect:/posts";
     }
 
+    /**
+     * Creates a new comment for a specific post and redirects to the profile page.
+     *
+     * @param postId the ID of the post
+     * @param contenido the content of the comment
+     * @return the redirect URL after creating the comment
+     */
     @PostMapping("/crearPerfil/{postId}")
     public String crearComentarioPerfil(@PathVariable Long postId, @RequestParam("contenido") String contenido) {
-        // ✅ Obtener usuario autenticado desde Spring Security
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof UserDetails)) {
-            return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir al login
+            return "redirect:/auth/login";
         }
 
         String email = ((UserDetails) principal).getUsername();
         User user = userService.findByEmail(email).orElse(null);
 
         if (user == null) {
-            return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
+            return "redirect:/auth/login";
         }
 
-        // ✅ Buscar el post en la BD
         Post post = postService.obtenerPostPorId(postId);
         if (post == null) {
-            return "redirect:/posts"; // 🔹 Redirigir si el post no existe
+            return "redirect:/posts";
         }
 
-        // ✅ Crear comentario asegurando que el usuario se asigne correctamente
         Comentario nuevoComentario = new Comentario();
         nuevoComentario.setContenido(contenido);
-        nuevoComentario.setUser(user);  // ✅ Establecer el usuario
+        nuevoComentario.setUser(user);
         nuevoComentario.setPost(post);
-
-        System.out.println(user.toString());
 
         User autor = userService.findByPostId(postId);
 
-        comentarioService.guardarComentario(nuevoComentario); // ✅ Guardar en BD
+        comentarioService.guardarComentario(nuevoComentario);
 
-        // ✅ Redirigir correctamente al perfil con la publicación específica
         return "redirect:/auth/profile/" + autor.getId();
     }
-
 }

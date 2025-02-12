@@ -106,18 +106,23 @@
 </div>
 
 <!-- 🔥 Banner de Cookies -->
-<div id="cookieBanner" class="cookie-banner">
+<div th:if="${cookieConsent == false}" id="cookieBanner" class="cookie-banner">
   <p>Usamos cookies para mejorar tu experiencia en Pawzy. ¿Aceptas nuestro uso de cookies?</p>
   <div class="cookie-buttons">
-    <button id="acceptCookies">Aceptar</button>
-    <button id="declineCookies">Rechazar</button>
+    <form th:action="@{/cookies/acceptCookies}" method="post">
+      <button type="submit" id="acceptCookies">Aceptar</button>
+    </form>
+    <form th:action="@{/cookies/declineCookies}" method="post">
+      <button type="submit" id="declineCookies">Rechazar</button>
+    </form>
   </div>
   <a th:href="@{/politica-cookies}">Más información</a>
 </div>
 
-<!-- JavaScript -->
+
+<!-- JavaScript
 <script src="/js/script.js"></script>
-<script src="/js/cookiesindex.js"></script>
+<script src="/js/cookiesindex.js"></script> -->
 
 </body>
 </html>

@@ -22,7 +22,9 @@ import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+/**
+ * Controller class for handling post-related requests.
+ */
 @Controller
 @RequestMapping("/posts")
 public class PostController {
@@ -33,57 +35,72 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    // 🔹 Obtener publicaciones del usuario autenticado y mostrar en la vista de perfil
-
+    /**
+     * Retrieves all posts and displays them in the feed view.
+     *
+     * @param model the model to add attributes to
+     * @return the view with the posts
+     */
     @GetMapping
     public String getPosts(Model model) {
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            String email = ((UserDetails) principal).getUsername(); // Spring Security usa email como username
+            String email = ((UserDetails) principal).getUsername();
             User user = userService.findByEmail(email).orElse(null);
 
             if (user == null) {
-                return "redirect:/auth/login"; // Redirigir si no existe en la BD
+                return "redirect:/auth/login";
             }
 
             model.addAttribute("user", user);
             return "feed";
         }
 
-        return "redirect:/auth/login"; // Si no está autenticado, redirigir al login
+        return "redirect:/auth/login";
     }
 
+    /**
+     * Retrieves posts of the authenticated user and displays them in the profile view.
+     *
+     * @param model the model to add attributes to
+     * @return the view with the user's posts
+     */
     @GetMapping("/user")
     public String getUserPosts(Model model) {
-        // 🔹 Obtiene el usuario autenticado desde Spring Security
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            String email = ((UserDetails) principal).getUsername(); // Spring Security usa email como username
+            String email = ((UserDetails) principal).getUsername();
             User user = userService.findByEmail(email).orElse(null);
 
             if (user == null) {
-                return "redirect:/auth/login"; // Redirigir si no existe en la BD
+                return "redirect:/auth/login";
             }
 
             List<Post> posts = postService.getPostsByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("userPosts", posts);
 
-            return "profile"; // Cargar la vista con los datos correctos
+            return "profile";
         }
 
-        return "redirect:/auth/login"; // Si no está autenticado, redirigir al login
+        return "redirect:/auth/login";
     }
 
+    /**
+     * Searches for posts by username and displays them in the feed view.
+     *
+     * @param username the username to search for
+     * @param model the model to add attributes to
+     * @return the view with the search results
+     */
     @GetMapping("/search")
     public String searchPostsByUser(@RequestParam("username") String username, Model model) {
         List<Post> posts = postService.findPostsByUsername(username);
         model.addAttribute("posts", posts);
 
-        // Obtener usuario autenticado
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String email = ((UserDetails) principal).getUsername();
@@ -93,54 +110,55 @@ public class PostController {
             }
         }
 
-        return "feed"; // Redirigir a la vista con los resultados
+        return "feed";
     }
 
-
+    /**
+     * Creates a new post with an image and description.
+     *
+     * @param image the image file for the post
+     * @param description the description of the post
+     * @return the redirect URL after creating the post
+     */
     @PostMapping("/create")
     public String createPost(
             @RequestParam("image") MultipartFile image,
             @RequestParam("description") String description) {
 
-        // 🔹 Obtener el usuario autenticado desde Spring Security
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof UserDetails)) {
-            return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir al login
+            return "redirect:/auth/login";
         }
 
         String email = ((UserDetails) principal).getUsername();
         User user = userService.findByEmail(email).orElse(null);
 
         if (user == null) {
-            return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
+            return "redirect:/auth/login";
         }
 
-        // 🔹 Obtener la ruta real del proyecto para guardar imágenes
-        String projectRoot = System.getProperty("user.dir"); // Ruta base del proyecto
-        String uploadDir = projectRoot + File.separator + "uploads"; // 📂 Carpeta donde se guardarán las imágenes
+        String projectRoot = System.getProperty("user.dir");
+        String uploadDir = projectRoot + File.separator + "uploads";
 
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) {
-            uploadFolder.mkdirs(); // 🔹 Crear la carpeta si no existe
+            uploadFolder.mkdirs();
         }
 
-        // 🔹 Generar un nombre único para la imagen
         String fileExtension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
         String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
 
-        // 🔹 Ruta completa donde se guardará el archivo
         Path destinationPath = Paths.get(uploadDir, uniqueFilename);
         File destinationFile = destinationPath.toFile();
 
         try {
-            image.transferTo(destinationFile); // 🔹 Guardar la imagen en el servidor
+            image.transferTo(destinationFile);
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:/auth/profile?error=upload_failed"; // 🔹 Manejar error
+            return "redirect:/auth/profile?error=upload_failed";
         }
 
-        // 🔹 Guardar la URL en la base de datos (ruta relativa para el frontend)
         String imageUrl = "/uploads/" + uniqueFilename;
 
         Post post = new Post();
@@ -149,7 +167,6 @@ public class PostController {
         post.setUser(user);
         postService.createPost(post);
 
-        return "redirect:/auth/profile"; // 🔹 Redirigir al perfil después de subir la publicación
+        return "redirect:/auth/profile";
     }
-
 }

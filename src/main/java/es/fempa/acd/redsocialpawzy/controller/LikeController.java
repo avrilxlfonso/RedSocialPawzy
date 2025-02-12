@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller class for handling like-related requests.
+ */
 @Controller
 @RequestMapping("/likes")
 public class LikeController {
@@ -26,9 +29,14 @@ public class LikeController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Toggles the like status for a specific post.
+     *
+     * @param postId the ID of the post
+     * @return the redirect URL after toggling the like
+     */
     @GetMapping("/toggle/{postId}")
     public String toggleLike(@PathVariable Long postId) {
-        // ✅ Obtener usuario autenticado
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails)) {
             return "redirect:/auth/login";
@@ -40,15 +48,13 @@ public class LikeController {
             return "redirect:/auth/login";
         }
 
-        // ✅ Buscar el post en la BD
         Post post = postService.obtenerPostPorId(postId);
         if (post == null) {
             return "redirect:/posts";
         }
 
-        // ✅ Alternar el like (si ya existe, se elimina; si no existe, se agrega)
         likeService.toggleLike(user, post);
 
-        return "redirect:/posts"; // 🔹 Redirigir al feed
+        return "redirect:/posts";
     }
 }
