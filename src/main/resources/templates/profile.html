@@ -14,6 +14,8 @@
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
 
+    <p><strong>Likes:</strong> <span th:text="${totalLikes}">0</span></p>
+
     <a href="/auth/logout">
       <button>Cerrar Sesión</button>
     </a>

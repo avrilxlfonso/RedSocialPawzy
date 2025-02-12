@@ -14,11 +14,7 @@
     <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
-    <p>Likes Totales: <span th:text="${totalLikes}">0</span></p> <!-- ✅ Muestra total de likes -->
-
-    <a href="/auth/logout">
-      <button>Cerrar Sesión</button>
-    </a>
+    <p><strong>Likes:</strong> <span th:text="${totalLikes}">0</span></p>
   </header>
 
   <!-- ✅ Publicaciones del usuario -->

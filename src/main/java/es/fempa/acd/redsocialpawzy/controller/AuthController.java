@@ -116,10 +116,12 @@ public class AuthController {
 
         // 🔹 Obtener publicaciones del usuario
         List<Post> posts = postService.getPostsByUser(user);
+        int totalLikes = postService.getTotalLikesByUser(user);
 
         // 🔹 Pasar el usuario y publicaciones a la vista
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);
+        model.addAttribute("totalLikes", totalLikes);
 
         return "user"; // 🔹 Cargar la vista del perfil
     }
@@ -138,6 +140,7 @@ public class AuthController {
         String email = ((UserDetails) principal).getUsername();
         User user = userService.findByEmail(email).orElse(null);
         List<Post> posts = postService.getPostsByUser(user);
+        int totalLikes = postService.getTotalLikesByUser(user);
 
         if (user == null) {
             return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
@@ -146,6 +149,7 @@ public class AuthController {
         // 🔹 Pasar el usuario a la vista
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
+        model.addAttribute("totalLikes", totalLikes);
         return "profile";
     }
 

@@ -35,5 +35,10 @@ public class PostService {
         return postRepository.findByUserUsername(username);
     }
 
+    public int getTotalLikesByUser(User user) {
+        List<Post> posts = postRepository.findByUser(user);
+        return posts.stream().mapToInt(post -> post.getLikes().size()).sum(); // ✅ Cuenta los likes en sus posts
+    }
+
     public Post obtenerPostPorId(Long postId) { return postRepository.findById(postId).orElse(null);}
 }
