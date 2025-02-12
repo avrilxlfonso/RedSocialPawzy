@@ -18,6 +18,11 @@ public class PostService {
         return postRepository.findByUser(user);
     }
 
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
+    }
+
+
     public Post createPost(Post post) {
         return postRepository.save(post);
     }
