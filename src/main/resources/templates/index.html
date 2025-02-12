@@ -106,7 +106,7 @@
 </div>
 
 <!-- 🔥 Banner de Cookies -->
-<div th:if="${cookieConsent == false}" id="cookieBanner" class="cookie-banner">
+<div th:if="${cookieConsent == null}" id="cookieBanner" class="cookie-banner">
   <p>Usamos cookies para mejorar tu experiencia en Pawzy. ¿Aceptas nuestro uso de cookies?</p>
   <div class="cookie-buttons">
     <form th:action="@{/cookies/acceptCookies}" method="post">
