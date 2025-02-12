@@ -43,12 +43,16 @@
   <section class="posts-section">
     <h2>Mis Publicaciones</h2>
 
-    <p th:if="${userPosts == null or #lists.isEmpty(userPosts)}">No tienes publicaciones aún.</p>
+    <p th:if="${posts == null or #lists.isEmpty(posts)}">No tienes publicaciones aún.</p>
 
-    <div th:if="${userPosts != null and not #lists.isEmpty(userPosts)}" class="post-gallery">
-      <div th:each="post : ${userPosts}" class="post-item">
+    <div th:if="${posts != null and not #lists.isEmpty(posts)}" class="post-gallery">
+      <div th:each="post : ${posts}" class="post-item">
         <img th:src="@{${post.imageUrl}}" alt="Publicación">
         <p th:text="${post.description}"></p>
+        <form th:action="@{/auth/deletePost/{postId}(postId=${post.id})}" method="post" class="delete-form">
+          <button type="submit" class="delete-button">🗑 Eliminar</button>
+        </form>
+
       </div>
     </div>
   </section>

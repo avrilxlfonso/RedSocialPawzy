@@ -149,7 +149,7 @@ public class PostController {
         post.setUser(user);
         postService.createPost(post);
 
-        return "redirect:/posts/user"; // 🔹 Redirigir al perfil después de subir la publicación
+        return "redirect:/auth/profile"; // 🔹 Redirigir al perfil después de subir la publicación
     }
 
 }

@@ -1,7 +1,9 @@
 package es.fempa.acd.redsocialpawzy.controller;
 
 import es.fempa.acd.redsocialpawzy.dto.AuthRequest;
+import es.fempa.acd.redsocialpawzy.model.Post;
 import es.fempa.acd.redsocialpawzy.model.User;
+import es.fempa.acd.redsocialpawzy.service.PostService;
 import es.fempa.acd.redsocialpawzy.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,6 +22,8 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PostService postService;
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
@@ -45,6 +50,41 @@ public class AuthController {
         model.addAttribute("success", "✅ Registro exitoso. ¡Ahora inicia sesión!");
         return "login";
     }
+
+    @PostMapping("/deletePost/{postId}")
+    public String deletePost(@PathVariable Long postId, Model model) {
+        // 🔹 Obtener usuario autenticado desde Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            return "redirect:/auth/login"; // Si no está autenticado, redirigir al login
+        }
+
+        String email = ((UserDetails) principal).getUsername();
+        User user = userService.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return "redirect:/auth/login"; // Si el usuario no está en la BD, redirigir
+        }
+
+        // 🔹 Buscar el post
+        Optional<Post> postOpt = Optional.ofNullable(postService.obtenerPostPorId(postId));
+
+        if (postOpt.isPresent()) {
+            Post post = postOpt.get();
+
+            // ✅ Verificar que el usuario es el propietario
+            if (post.getUser().getId().equals(user.getId())) {
+                postService.deletePost(postId); // Eliminar la publicación
+            } else {
+                model.addAttribute("error", "❌ No puedes eliminar esta publicación.");
+            }
+        }
+
+        return "redirect:/auth/profile"; // Volver al perfil tras la eliminación
+    }
+
+
 
     @PostMapping("/login")
     public String login(@ModelAttribute AuthRequest request, HttpSession session, Model model) {
@@ -74,14 +114,17 @@ public class AuthController {
             return "redirect:/auth/login"; // 🔹 Si no está autenticado, redirigir
         }
 
+
         String email = ((UserDetails) principal).getUsername();
         User user = userService.findByEmail(email).orElse(null);
+        List<Post> posts = postService.getPostsByUser(user);
 
         if (user == null) {
             return "redirect:/auth/login"; // 🔹 Si no existe en la BD, redirigir
         }
 
         // 🔹 Pasar el usuario a la vista
+        model.addAttribute("posts", posts);
         model.addAttribute("user", user);
         return "profile";
     }
