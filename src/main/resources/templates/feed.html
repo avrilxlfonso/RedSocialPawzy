@@ -55,7 +55,9 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Publicación</h5>
+                <h5 class="modal-title">
+                  Publicado por <strong th:text="${post.user.username}">Usuario</strong>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div class="modal-body">
