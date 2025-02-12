@@ -11,4 +11,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUser(User user);
     @Query("SELECT p FROM Post p LEFT JOIN FETCH p.likes")
     List<Post> findAllWithLikes();
+    List<Post> findByUserUsername(String username);
 }

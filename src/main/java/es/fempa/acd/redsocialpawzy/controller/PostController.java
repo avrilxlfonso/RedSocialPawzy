@@ -78,6 +78,24 @@ public class PostController {
         return "redirect:/auth/login"; // Si no está autenticado, redirigir al login
     }
 
+    @GetMapping("/search")
+    public String searchPostsByUser(@RequestParam("username") String username, Model model) {
+        List<Post> posts = postService.findPostsByUsername(username);
+        model.addAttribute("posts", posts);
+
+        // Obtener usuario autenticado
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String email = ((UserDetails) principal).getUsername();
+            User user = userService.findByEmail(email).orElse(null);
+            if (user != null) {
+                model.addAttribute("user", user);
+            }
+        }
+
+        return "feed"; // Redirigir a la vista con los resultados
+    }
+
 
     @PostMapping("/create")
     public String createPost(

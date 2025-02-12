@@ -26,5 +26,9 @@ public class PostService {
         return postRepository.findAllWithLikes();
     }
 
+    public List<Post> findPostsByUsername(String username) {
+        return postRepository.findByUserUsername(username);
+    }
+
     public Post obtenerPostPorId(Long postId) { return postRepository.findById(postId).orElse(null);}
 }
