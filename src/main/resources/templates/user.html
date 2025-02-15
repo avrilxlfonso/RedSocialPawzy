@@ -18,17 +18,16 @@
   </header>
 
   <!-- ✅ Publicaciones del usuario -->
-  <section class="feed-main">
+  <section class="posts-section">
     <h2>Publicaciones</h2>
 
     <p th:if="${posts == null or #lists.isEmpty(posts)}">No tienes publicaciones aún.</p>
 
-    <div th:if="${posts != null and not #lists.isEmpty(posts)}" class="feed-grid">
-      <div th:each="post : ${posts}" class="feed-item">
+    <div th:if="${posts != null and not #lists.isEmpty(posts)}" class="post-gallery">
+      <div th:each="post : ${posts}" class="post-item">
         <!-- ✅ Imagen que abre el modal -->
-        <div class="image-container">
-          <img th:src="@{${post.imageUrl}}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
-        </div>
+        <img th:src="@{${post.imageUrl}}" th:alt="${post.description}" data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${post.id}">
+
         <p th:text="${post.description}"></p>
 
         <!-- ✅ Botón de Like debajo de la imagen -->
