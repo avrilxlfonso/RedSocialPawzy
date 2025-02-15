@@ -1,0 +1,76 @@
+/* Estilos generales */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5e6d7; /* Fondo claro para contrastar */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor central */
+.edit-comment-container {
+    background-color: #593434; /* Marrón */
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+.title {
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Estilos del formulario */
+.form-label {
+    color: #fff;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Botones */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-btn, .cancel-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.save-btn {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+}
+
+.save-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn {
+    background-color: #dc3545; /* Rojo */
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}

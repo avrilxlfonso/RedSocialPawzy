@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for managing Comentario entities.
@@ -35,5 +36,14 @@ public class ComentarioService {
      */
     public List<Comentario> obtenerComentariosPorPost(Post post) {
         return comentarioRepository.findByPost(post);
+    }
+
+
+    public Comentario obtenerComentarioPorId(Long id) {
+        return comentarioRepository.findById(id).orElse(null);
+    }
+
+    public void eliminarComentario(Long id) {
+        comentarioRepository.deleteById(id);
     }
 }

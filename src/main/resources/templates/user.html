@@ -58,6 +58,24 @@
                     <li th:each="comentario : ${post.comentarios}" class="comment-item">
                       <strong th:text="${comentario.user.username}">Usuario</strong>:
                       <span th:text="${comentario.contenido}">Contenido</span>
+
+                      <!-- Mostrar botones solo si el usuario autenticado es el autor del comentario -->
+                      <span th:if="${#authentication.name == comentario.user.email}">
+                  <!-- Botón de editar -->
+                  <button type="button" th:onclick="'showEditForm(' + ${comentario.id} + ')'" class="edit-btn">✏️</button>
+
+                        <!-- Botón de eliminar -->
+                  <form th:action="@{/comentarios/eliminar/{comentarioId}(comentarioId=${comentario.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="delete-btn">🗑️</button>
+                  </form>
+                </span>
+
+                      <!-- Formulario de edición (oculto por defecto) -->
+                      <form th:id="'edit-form-' + ${comentario.id}" th:action="@{/comentarios/editar/{comentarioId}(comentarioId=${comentario.id})}" method="post" class="edit-comment-form" style="display: none;">
+                        <input type="text" name="contenido" th:value="${comentario.contenido}" required>
+                        <button type="submit" class="save-btn">💾</button>
+                        <button type="button" th:onclick="'cancelEdit(' + ${comentario.id} + ')'" class="cancel-btn">❌</button>
+                      </form>
                     </li>
                   </ul>
 

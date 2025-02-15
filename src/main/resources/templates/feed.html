@@ -51,7 +51,7 @@
           </button>
         </form>
 
-        <!-- Modal de comentarios -->
+        <!-- 🔹 Modal de comentarios -->
         <div th:id="'modal-' + ${post.id}" class="modal fade" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -62,22 +62,37 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div class="modal-body">
-                <!-- Contenedor de imagen y comentarios -->
+                <!-- 🔹 Contenedor de imagen y comentarios -->
                 <div class="modal-body-container">
                   <!-- Imagen grande -->
                   <div class="modal-image-container">
                     <img th:src="${post.imageUrl}" id="modalImage" alt="Imagen seleccionada">
                   </div>
 
-                  <!-- Sección de comentarios (a la derecha) -->
+                  <!-- 🔹 Sección de comentarios -->
                   <div class="comments-section">
                     <h3>Comentarios</h3>
                     <ul>
                       <li th:each="comentario : ${post.comentarios}" class="comment-item">
                         <strong th:text="${comentario.user.username}">Usuario</strong>:
                         <span th:text="${comentario.contenido}">Contenido</span>
+
+                        <!-- Mostrar botones solo si el usuario autenticado es el autor del comentario -->
+                        <span th:if="${#authentication.name == comentario.user.email}">
+                        <!-- Botón de editar -->
+                        <form th:action="@{/comentarios/editar/{comentarioId}(comentarioId=${comentario.id})}" method="get" style="display:inline;">
+                          <button type="submit" class="edit-btn">✏️</button>
+                        </form>
+
+                          <!-- Botón de eliminar -->
+                          <form th:action="@{/comentarios/eliminar/{comentarioId}(comentarioId=${comentario.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="delete-btn">🗑️</button>
+                          </form>
+                        </span>
+
                       </li>
                     </ul>
+
                     <!-- Si no hay comentarios -->
                     <div th:if="${#lists.isEmpty(post.comentarios)}" class="no-comments">
                       Aún no hay comentarios. ¡Sé el primero en comentar!
@@ -85,7 +100,7 @@
                   </div>
                 </div>
 
-                <!-- Formulario para agregar un comentario -->
+                <!-- 🔹 Formulario para agregar un comentario -->
                 <form th:action="@{/comentarios/crear/{postId}(postId=${post.id})}" method="post" class="comment-form">
                   <textarea name="contenido" placeholder="Escribe un comentario..." required></textarea>
                   <button type="submit">Comentar</button>
@@ -94,6 +109,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </main>
