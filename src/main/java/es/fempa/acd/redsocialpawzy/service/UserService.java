@@ -116,4 +116,13 @@ public class UserService {
 
         return user;
     }
+
+    public void updateProfileImage(Long userId, String imageUrl) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setProfileImageUrl(imageUrl);
+            userRepository.save(user);
+        }
+    }
 }

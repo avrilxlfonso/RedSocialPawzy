@@ -207,6 +207,39 @@ body {
     margin-left: 5px; /* Espaciado entre botones */
 }
 
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #805D3A; /* Marrón */
+}
+
+.profile-header form {
+    margin-top: 10px;
+}
+
+.profile-header input[type="file"] {
+    display: block;
+    margin: 5px auto;
+}
+
+.profile-header button {
+    background-color: #805D3A;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 /* Efecto hover */
 .edit-btn:hover {
     background-color: #28a745; /* Verde */

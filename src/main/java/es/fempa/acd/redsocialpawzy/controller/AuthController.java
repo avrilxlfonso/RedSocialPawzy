@@ -12,9 +12,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Controlador encargado de gestionar la autenticación y el perfil de usuario.
@@ -197,5 +203,43 @@ public class AuthController {
         model.addAttribute("totalLikes", totalLikes);
 
         return "profile"; // Retorna la vista de perfil
+    }
+
+    @PostMapping("/updateProfileImage")
+    public String updateProfileImage(@RequestParam("image") MultipartFile image) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            return "redirect:/auth/login";
+        }
+
+        String email = ((UserDetails) principal).getUsername();
+        User user = userService.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+
+        String uploadDir = System.getProperty("user.dir") + File.separator + "uploads";
+        File uploadFolder = new File(uploadDir);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+
+        String fileExtension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
+        Path destinationPath = Paths.get(uploadDir, uniqueFilename);
+        File destinationFile = destinationPath.toFile();
+
+        try {
+            image.transferTo(destinationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/auth/profile?error=upload_failed";
+        }
+
+        String imageUrl = "/uploads/" + uniqueFilename;
+        userService.updateProfileImage(user.getId(), imageUrl);
+
+        return "redirect:/auth/profile";
     }
 }

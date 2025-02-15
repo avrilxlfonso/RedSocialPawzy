@@ -22,6 +22,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String profileImageUrl;
+
     /**
      * Returns a string representation of the user.
      *
@@ -128,5 +130,14 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    // Getters y Setters
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

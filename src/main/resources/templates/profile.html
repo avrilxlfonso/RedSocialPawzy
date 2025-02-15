@@ -14,10 +14,24 @@
     <!-- Enlace para volver al feed -->
     <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
 
+    <!-- ✅ Imagen de Perfil -->
+    <div class="profile-image-container">
+      <img th:src="${user.profileImageUrl != null ? user.profileImageUrl : '/img/default-profile.png'}"
+           alt="Imagen de perfil"
+           class="profile-image">
+    </div>
+
+    <!-- ✅ Formulario para subir nueva imagen de perfil -->
+    <form th:action="@{/auth/updateProfileImage}" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Actualizar Imagen</button>
+    </form>
+
     <!-- Nombre y correo del usuario -->
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
     <p><strong>Likes:</strong> <span th:text="${totalLikes}">0</span></p>
+
 
     <!-- Botón de Cerrar Sesión -->
     <a href="/auth/logout">
