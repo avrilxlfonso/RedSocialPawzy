@@ -180,6 +180,41 @@ body {
     font-size: 14px;
 }
 
+/* Estilo general para los botones */
+.edit-btn, .delete-btn {
+    background-color: white; /* Fondo blanco */
+    color: #8B5A2B; /* Marrón oscuro para el icono */
+    border: 2px solid #8B5A2B; /* Borde marrón */
+    border-radius: 50%; /* Hace los botones redondos */
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 5px; /* Espaciado entre botones */
+}
+
+/* Efecto hover */
+.edit-btn:hover {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border-color: #218838;
+}
+
+.delete-btn:hover {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    border-color: #c82333;
+}
+
+/* Para alinear los botones en línea */
+.edit-btn, .delete-btn {
+    display: inline-flex;
+}
+
 /* Estilos para la galería de publicaciones */
 .posts-section {
     background: #3a1313;

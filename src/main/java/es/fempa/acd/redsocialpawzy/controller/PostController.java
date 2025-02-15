@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,24 +27,24 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Este controlador gestiona la creación, edición, visualización y búsqueda de publicaciones.
  */
 @Controller
-@RequestMapping("/posts")
+@RequestMapping("/posts") // Define la ruta base para todas las solicitudes de publicaciones.
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostService postService; // Servicio para manejar operaciones de publicaciones.
 
     @Autowired
-    private UserService userService;
+    private UserService userService; // Servicio para manejar operaciones de usuario.
 
     /**
      * Recupera todas las publicaciones y las muestra en la vista de feed.
      *
-     * @param model El modelo para agregar atributos a la vista.
+     * @param model Modelo de datos para la vista.
      * @return La vista con las publicaciones.
      */
     @GetMapping
     public String getPosts(Model model) {
-        List<Post> posts = postService.getAllPosts();
+        List<Post> posts = postService.getAllPosts(); // Obtiene todas las publicaciones.
         model.addAttribute("posts", posts);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -54,11 +53,11 @@ public class PostController {
             User user = userService.findByEmail(email).orElse(null);
 
             if (user == null) {
-                return "redirect:/auth/login";
+                return "redirect:/auth/login"; // Si el usuario no está autenticado, redirige a login.
             }
 
             model.addAttribute("user", user);
-            return "feed";
+            return "feed"; // Retorna la vista del feed de publicaciones.
         }
 
         return "redirect:/auth/login";
@@ -67,7 +66,7 @@ public class PostController {
     /**
      * Recupera las publicaciones del usuario autenticado y las muestra en la vista de perfil.
      *
-     * @param model El modelo para agregar atributos a la vista.
+     * @param model Modelo de datos para la vista.
      * @return La vista con las publicaciones del usuario.
      */
     @GetMapping("/user")
@@ -84,9 +83,9 @@ public class PostController {
 
             List<Post> posts = postService.getPostsByUser(user);
             model.addAttribute("user", user);
-            model.addAttribute("posts", posts);  // Cambié 'userPosts' por 'posts'
+            model.addAttribute("posts", posts);
 
-            return "profile";
+            return "profile"; // Retorna la vista del perfil del usuario con sus publicaciones.
         }
 
         return "redirect:/auth/login";
@@ -95,8 +94,8 @@ public class PostController {
     /**
      * Busca publicaciones por nombre de usuario y las muestra en la vista de feed.
      *
-     * @param username El nombre de usuario para buscar.
-     * @param model El modelo para agregar atributos a la vista.
+     * @param username Nombre de usuario para buscar.
+     * @param model Modelo de datos para la vista.
      * @return La vista con los resultados de la búsqueda.
      */
     @GetMapping("/search")
@@ -113,15 +112,15 @@ public class PostController {
             }
         }
 
-        return "feed";
+        return "feed"; // Retorna la vista del feed con los resultados de la búsqueda.
     }
 
     /**
      * Edita la descripción de una publicación existente.
      *
-     * @param postId El ID de la publicación a editar.
-     * @param description La nueva descripción de la publicación.
-     * @param session La sesión HTTP para almacenar los posts actualizados.
+     * @param postId ID de la publicación a editar.
+     * @param description Nueva descripción de la publicación.
+     * @param session Sesión HTTP para almacenar los posts actualizados.
      * @return Redirige a la vista de perfil con los cambios reflejados.
      */
     @PostMapping("/edit/{postId}")
@@ -139,14 +138,14 @@ public class PostController {
             }
         }
 
-        return "redirect:/posts/user"; // Redirige a la vista de perfil correctamente
+        return "redirect:/posts/user"; // Redirige a la vista de perfil con la descripción editada.
     }
 
     /**
      * Crea una nueva publicación con una imagen y una descripción.
      *
-     * @param image La imagen de la publicación.
-     * @param description La descripción de la publicación.
+     * @param image Imagen de la publicación.
+     * @param description Descripción de la publicación.
      * @return Redirige a la vista de perfil tras crear la publicación.
      */
     @PostMapping("/create")
@@ -167,35 +166,41 @@ public class PostController {
             return "redirect:/auth/login";
         }
 
+        // Define el directorio donde se guardarán las imágenes subidas
         String projectRoot = System.getProperty("user.dir");
         String uploadDir = projectRoot + File.separator + "uploads";
 
+        // Verifica si el directorio de carga existe, si no, lo crea
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
 
+        // Genera un nombre de archivo único para evitar conflictos
         String fileExtension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
         String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
 
+        // Crea la ruta completa del archivo
         Path destinationPath = Paths.get(uploadDir, uniqueFilename);
         File destinationFile = destinationPath.toFile();
 
         try {
-            image.transferTo(destinationFile);
+            image.transferTo(destinationFile); // Guarda la imagen en el directorio
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:/auth/profile?error=upload_failed";
+            return "redirect:/auth/profile?error=upload_failed"; // Redirige con un mensaje de error en caso de fallo
         }
 
+        // Genera la URL relativa de la imagen para acceder desde la web
         String imageUrl = "/uploads/" + uniqueFilename;
 
+        // Crea la nueva publicación y la guarda en la base de datos
         Post post = new Post();
         post.setImageUrl(imageUrl);
         post.setDescription(description);
         post.setUser(user);
         postService.createPost(post);
 
-        return "redirect:/auth/profile";
+        return "redirect:/auth/profile"; // Redirige a la página de perfil tras crear la publicación.
     }
 }

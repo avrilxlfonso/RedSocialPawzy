@@ -16,50 +16,50 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controller class for handling comment-related requests.
+ * Controlador encargado de gestionar los comentarios en las publicaciones.
  */
 @Controller
 @RequestMapping("/comentarios")
 public class ComentarioController {
 
     @Autowired
-    private ComentarioService comentarioService;
+    private ComentarioService comentarioService; // Servicio para manejar los comentarios
 
     @Autowired
-    private PostService postService;
+    private PostService postService; // Servicio para manejar las publicaciones
 
     @Autowired
-    private UserService userService;
+    private UserService userService; // Servicio para manejar los usuarios
 
     /**
-     * Retrieves comments for a specific post.
+     * Obtiene los comentarios de una publicación específica.
      *
-     * @param postId the ID of the post
-     * @param model the model to add attributes to
-     * @return the view with the comments
+     * @param postId ID de la publicación
+     * @param model  Modelo para agregar atributos a la vista
+     * @return Vista con los comentarios asociados a la publicación
      */
     @GetMapping("/{postId}")
     public String obtenerComentarios(@PathVariable Long postId, Model model) {
-        Post post = postService.obtenerPostPorId(postId);
-        List<Comentario> comentarios = comentarioService.obtenerComentariosPorPost(post);
+        Post post = postService.obtenerPostPorId(postId); // Obtiene la publicación
+        List<Comentario> comentarios = comentarioService.obtenerComentariosPorPost(post); // Obtiene los comentarios
         model.addAttribute("post", post);
         model.addAttribute("comentarios", comentarios);
-        return "feed";
+        return "feed"; // Retorna la vista del feed
     }
 
     /**
-     * Creates a new comment for a specific post.
+     * Crea un nuevo comentario en una publicación.
      *
-     * @param postId the ID of the post
-     * @param contenido the content of the comment
-     * @return the redirect URL after creating the comment
+     * @param postId    ID de la publicación
+     * @param contenido Contenido del comentario
+     * @return Redirige al feed después de comentar
      */
     @PostMapping("/crear/{postId}")
     public String crearComentario(@PathVariable Long postId, @RequestParam("contenido") String contenido) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (!(principal instanceof UserDetails)) {
-            return "redirect:/auth/login";
+            return "redirect:/auth/login"; // Redirige si el usuario no está autenticado
         }
 
         String email = ((UserDetails) principal).getUsername();
@@ -74,22 +74,23 @@ public class ComentarioController {
             return "redirect:/posts";
         }
 
+        // Crea un nuevo comentario
         Comentario nuevoComentario = new Comentario();
         nuevoComentario.setContenido(contenido);
         nuevoComentario.setUser(user);
         nuevoComentario.setPost(post);
 
-        comentarioService.guardarComentario(nuevoComentario);
+        comentarioService.guardarComentario(nuevoComentario); // Guarda el comentario en la BD
 
         return "redirect:/posts";
     }
 
     /**
-     * Creates a new comment for a specific post and redirects to the profile page.
+     * Crea un comentario en una publicación y redirige al perfil del usuario.
      *
-     * @param postId the ID of the post
-     * @param contenido the content of the comment
-     * @return the redirect URL after creating the comment
+     * @param postId    ID de la publicación
+     * @param contenido Contenido del comentario
+     * @return Redirige al perfil del usuario propietario de la publicación
      */
     @PostMapping("/crearPerfil/{postId}")
     public String crearComentarioPerfil(@PathVariable Long postId, @RequestParam("contenido") String contenido) {
@@ -111,24 +112,25 @@ public class ComentarioController {
             return "redirect:/posts";
         }
 
+        // Crea un nuevo comentario
         Comentario nuevoComentario = new Comentario();
         nuevoComentario.setContenido(contenido);
         nuevoComentario.setUser(user);
         nuevoComentario.setPost(post);
 
-        User autor = userService.findByPostId(postId);
+        User autor = userService.findByPostId(postId); // Obtiene el usuario propietario de la publicación
 
-        comentarioService.guardarComentario(nuevoComentario);
+        comentarioService.guardarComentario(nuevoComentario); // Guarda el comentario en la BD
 
-        return "redirect:/auth/profile/" + autor.getId();
+        return "redirect:/auth/profile/" + autor.getId(); // Redirige al perfil del usuario
     }
 
     /**
-     * Edita un comentario.
+     * Muestra el formulario para editar un comentario.
      *
      * @param comentarioId ID del comentario a editar
-     * @param model   Nuevo contenido del comentario
-     * @return Redirige al perfil del usuario
+     * @param model        Modelo para pasar datos a la vista
+     * @return Vista del formulario de edición de comentario
      */
     @GetMapping("/editar/{comentarioId}")
     public String mostrarFormularioEdicion(@PathVariable Long comentarioId, Model model) {
@@ -142,15 +144,22 @@ public class ComentarioController {
 
         Comentario comentario = comentarioService.obtenerComentarioPorId(comentarioId);
 
-        // Si el comentario no existe o no pertenece al usuario autenticado, redirigirlo
+        // Si el comentario no existe o no pertenece al usuario autenticado, redirigir
         if (comentario == null || !comentario.getUser().equals(user)) {
             return "redirect:/posts";
         }
 
         model.addAttribute("comentario", comentario);
-        return "editar-comentario"; // Vista que mostraremos para editar
+        return "editar-comentario"; // Vista donde se edita el comentario
     }
 
+    /**
+     * Procesa la edición de un comentario.
+     *
+     * @param comentarioId ID del comentario a editar
+     * @param contenido    Nuevo contenido del comentario
+     * @return Redirige al feed después de la edición
+     */
     @PostMapping("/editar/{comentarioId}")
     public String editarComentario(@PathVariable Long comentarioId, @RequestParam("contenido") String contenido) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -163,7 +172,7 @@ public class ComentarioController {
 
         Comentario comentario = comentarioService.obtenerComentarioPorId(comentarioId);
 
-        // Verificar si el comentario pertenece al usuario autenticado
+        // Verifica si el comentario pertenece al usuario autenticado
         if (comentario != null && comentario.getUser().equals(user)) {
             comentario.setContenido(contenido);
             comentarioService.guardarComentario(comentario);
@@ -172,13 +181,11 @@ public class ComentarioController {
         return "redirect:/posts";
     }
 
-
-
     /**
-     * Elimina un comentario.
+     * Elimina un comentario si el usuario es el propietario.
      *
      * @param comentarioId ID del comentario a eliminar
-     * @return Redirige al perfil del usuario
+     * @return Redirige al feed después de eliminar
      */
     @PostMapping("/eliminar/{comentarioId}")
     public String eliminarComentario(@PathVariable Long comentarioId) {
@@ -197,11 +204,12 @@ public class ComentarioController {
 
         Comentario comentario = comentarioService.obtenerComentarioPorId(comentarioId);
 
+        // Si el comentario no existe o no pertenece al usuario autenticado, no lo elimina
         if (comentario == null || !comentario.getUser().equals(user)) {
-            return "redirect:/posts"; // Si el comentario no existe o no pertenece al usuario autenticado
+            return "redirect:/posts";
         }
 
-        comentarioService.eliminarComentario(comentarioId);
+        comentarioService.eliminarComentario(comentarioId); // Elimina el comentario de la BD
 
         return "redirect:/posts";
     }
