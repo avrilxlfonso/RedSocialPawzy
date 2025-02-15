@@ -1,7 +1,7 @@
 /* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #320808; /* Fondo burdeos oscuro */
+    background: #883e3e!important; /* Marrón oscuro */
     color: #fff9f9; /* Texto claro */
     margin: 0;
     padding: 20px;
@@ -25,6 +25,16 @@ body {
     margin: auto;
     padding: 20px;
     position: relative;
+    background-color: #5a2828!important;
+}
+
+/* Contenedor principal */
+.profile-containers {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    position: relative;
+    background-color: #472d2d !important;
 }
 
 /* Header del perfil */
@@ -32,7 +42,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #391111; /* Marrón oscuro */
+    background: #220606; /* Marrón oscuro */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -217,7 +227,7 @@ body {
 
 /* Estilos para la galería de publicaciones */
 .posts-section {
-    background: #3a1313;
+    background: #1e0707;
     padding: 20px;
     margin-top: 20px;
     border-radius: 10px;

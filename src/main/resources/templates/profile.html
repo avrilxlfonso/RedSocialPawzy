@@ -8,13 +8,18 @@
 </head>
 <body class="${isDaltonismEnabled ? 'daltonism-active' : ''}">
 
-<div class="profile-container">
+<!-- Contenedor del perfil -->
+<div class="profile-containers">
   <header class="profile-header">
+    <!-- Enlace para volver al feed -->
     <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
+
+    <!-- Nombre y correo del usuario -->
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
     <p><strong>Likes:</strong> <span th:text="${totalLikes}">0</span></p>
 
+    <!-- Botón de Cerrar Sesión -->
     <a href="/auth/logout">
       <button>Cerrar Sesión</button>
     </a>
