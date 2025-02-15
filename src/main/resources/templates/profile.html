@@ -13,6 +13,7 @@
     <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
     <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
+    <p><strong>Likes:</strong> <span th:text="${totalLikes}">0</span></p>
 
     <a href="/auth/logout">
       <button>Cerrar Sesión</button>
@@ -33,7 +34,7 @@
       <div class="description-container">
         <h3>Descripción</h3>
         <textarea name="description" id="descriptionInput" placeholder="Añade una descripción detallada" required></textarea>
-        <button type="submit">Publicar</button>
+        <button class="description-button" type="submit">Publicar</button>
       </div>
     </form>
   </section>
