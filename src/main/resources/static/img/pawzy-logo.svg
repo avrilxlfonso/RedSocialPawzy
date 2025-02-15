@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 200 200"
+     xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo transparente o sin fondo -->
+  <g fill="#A25F2A">
+    <!-- Parte principal de la huella -->
+    <circle cx="60" cy="80" r="20"/>
+    <!-- Deditos -->
+    <circle cx="40" cy="50" r="10"/>
+    <circle cx="60" cy="40" r="10"/>
+    <circle cx="80" cy="50" r="10"/>
+    <circle cx="90" cy="70" r="10"/>
+  </g>
+  <!-- Texto "PAWZY" si quieres llevarlo dentro del SVG (opcional) -->
+</svg>

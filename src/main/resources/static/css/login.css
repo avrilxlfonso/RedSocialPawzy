@@ -1,0 +1,253 @@
+/* Estilos generales del body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8; /* Color de fondo claro */
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos generales del header */
+.header {
+    background-color: #7a1a1a; /* Burdeos oscuro */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Ocultar por defecto en pantallas grandes */
+}
+
+.desktop-nav {
+    display: flex;
+}
+
+.nav-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #b03a2e; /* Rojo */
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #b03a2e; /* Rojo */
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 80px; /* Ajusta según sea necesario */
+}
+
+.img-logo {
+    max-width: 110px; /* Ajusta el ancho máximo */
+    max-height: 110px; /* Ajusta la altura máxima */
+    display: block;
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+
+/* Estilos del contenedor de inicio de sesión */
+.login-container {
+    width: 300px;
+    margin: 120px auto; /* Ajusta el margen superior según sea necesario */
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenedor */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #7a1a1a; /* Burdeos oscuro */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #b03a2e; /* Rojo más claro */
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #b03a2e; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #7a1a1a; /* Burdeos oscuro al pasar el mouse */
+}
+
+#message {
+    color: #b03a2e; /* Rojo */
+    text-align: center;
+    margin-top: 10px;
+}
+
+p {
+    text-align: center;
+    color: #7a1a1a; /* Burdeos oscuro */
+}
+
+a {
+    color: #b03a2e; /* Rojo */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostrar el botón de menú en pantallas pequeñas */
+    }
+
+    .desktop-nav {
+        display: none; /* Ocultar la navegación de escritorio en pantallas pequeñas */
+    }
+}
+
+
+
+/* Estilos para el scrollbar en navegadores WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 19px; /* Ancho del scrollbar */
+    height: 16px; /* Altura del scrollbar (para scroll horizontal) */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Fondo del track (parte donde se mueve el thumb) */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #6f4c3e; /* Color del thumb (parte que se arrastra) */
+    border-radius: 10px; /* Bordes redondeados del thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #5b3e30; /* Color del thumb al pasar el mouse */
+}
+
+/* Ocultar los botones de desplazamiento (triángulos) */
+::-webkit-scrollbar-button {
+    display: none; /* Oculta los botones de arriba y abajo */
+}
+
+/* Estilos para el scrollbar en Firefox */
+* {
+    scrollbar-width: auto; 
+    scrollbar-color: #6f4c3e transparent; /* Color del thumb y del track */
+}
+/* Menú lateral oculto por defecto */
+.side-menu {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #35303e; /* Color de fondo */
+    color: white;
+    padding: 20px;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%); /* El menú comienza fuera de la pantalla */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Cuando el menú tiene la clase 'open', se muestra */
+.side-menu.open {
+    display: block;
+    transform: translateX(0); /* Mueve el menú a la vista */
+}
+
+/* Estilo del botón de cierre "X" */
+.close-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;  /* Tamaño de la X */
+    position: absolute;
+    top: 1px;  /* Ajuste desde el borde superior */
+    right: 1px; /* Ajuste desde el borde derecho */
+    cursor: pointer;
+    font-weight: bold; /* Asegura que la X sea más destacada */
+}
+
+/* Estilo de los botones dentro del menú */
+.side-menu .nav-button {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid white; /* Bordes alrededor de los botones */
+    border-radius: 5px;  /* Bordes redondeados para los botones */
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para los botones */
+.side-menu .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Efecto al pasar el cursor */
+}
+
+/* Aseguramos que el menú tenga suficiente espacio para los botones y la "X" */
+.side-menu {
+    padding-top: 50px; /* Espacio adecuado para que los botones no estén cerca de la "X" */
+}

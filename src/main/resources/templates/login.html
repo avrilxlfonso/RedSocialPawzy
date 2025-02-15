@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Pawzy</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<header class="header d-flex justify-content-between align-items-center">
+    <div class="logo d-flex align-items-center">
+        <img src="/img/animals.png" alt="Logo" class="logo-img">
+        <img src="/img/letraLogo.png" alt="Logo" class="logo-img">
+    </div>
+    <nav class="nav">
+        <button class="menu-toggle d-md-none" onclick="toggleMenu()">☰</button>
+        <div class="desktop-nav d-none d-md-flex">
+            <a th:href="@{/auth/register}" class="nav-button nav-button--outline">Registrarse</a>
+        </div>
+    </nav>
+</header>
+
+<div class="login-container">
+    <div class="logo-container">
+        <img src="/img/pawzyLogo.png" class="img-logo" alt="Logo">
+    </div>
+    <h2>Iniciar Sesión</h2>
+
+    <form th:action="@{/auth/login}" method="post">
+        <label>Correo Electrónico</label>
+        <input type="email" name="username" placeholder="Tu correo" required>
+
+        <label>Contraseña</label>
+        <input type="password" name="password" placeholder="Tu contraseña">
+
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <!-- ✅ Mensaje de error si las credenciales son incorrectas -->
+    <p th:if="${error}" class="error-message" th:text="${error}"></p>
+
+    <p>¿No tienes cuenta? <a href="/auth/register">Regístrate aquí</a></p>
+</div>
+
+<!-- Menú lateral para móviles -->
+<div id="mobile-menu" class="side-menu">
+    <button class="close-menu" onclick="toggleMenu()">✖</button>
+    <a th:href="@{/auth/register}" class="nav-button nav-button--outline">Registrarse</a>
+</div>
+
+<!-- Script del menu en dispositivos móviles -->
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("mobile-menu");
+
+        // Alterna la clase 'open' para abrir/cerrar el menú
+        menu.classList.toggle('open');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page - Pawzy</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="icon" type="image/png" href="/img/fox.jpg">
+</head>
+<body>
+
+<!-- Contenedor principal -->
+<div class="landing-container">
+  <header class="header d-flex justify-content-between align-items-center">
+    <div class="logo d-flex align-items-center">
+      <img src="/img/animals.png" alt="Logo" class="logo-img">
+      <img src="/img/letraLogo.png" alt="Logo" class="logo-img">
+    </div>
+    <nav class="nav">
+      <button class="menu-toggle d-md-none" onclick="toggleMenu()">☰</button>
+      <div class="desktop-nav d-none d-md-flex">
+        <a th:href="@{/auth/login}" class="nav-button">Iniciar sesión</a>
+        <a th:href="@{/auth/register}" class="nav-button nav-button--outline">Registrarse</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <div class="info-section text-center">
+    <h1 class="bold-title">EXPLORA LAS MEJORES FOTOS DE MASCOTAS</h1>
+    <p>Únete a nuestra comunidad y comparte tus momentos favoritos con tus amigos y familiares.</p>
+  </div>
+
+  <section class="search-idea-section">
+    <div class="search-idea-container">
+      <div class="search-images">
+        <div class="search-main-image">
+          <img src="/img/hamstepose.jpg" alt="Mascota destacada">
+          <div class="search-label">🔍 Hamster pose</div>
+        </div>
+        <div class="search-secondary-images">
+          <img src="/img/erizo.jpg" alt="Mascota secundaria">
+          <img src="/img/bunny.jpg" alt="Mascota secundaria">
+          <img src="/img/fox.jpg" alt="Mascota secundaria">
+        </div>
+      </div>
+      <div class="search-text">
+        <h2>Busca una idea</h2>
+        <p>¿Qué quieres probar ahora? Piensa en algo que te guste, como "Hamster pose", y ve lo que encuentras.</p>
+        <a th:href="@{/auth/login}" class="explore-button">Explorar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nueva sección agregada antes del footer -->
+  <section class="collections-section">
+    <div class="collections-container">
+      <div class="collections-text">
+        <h2 class="title2">Guarda las mejores fotos de mascotas</h2>
+        <p class="title2">Recopila tus favoritos y vuelve a verlos después.</p>
+        <a th:href="@{/auth/login}" class="explore-button">Explorar</a>
+      </div>
+      <div class="collections-grid">
+        <div class="collection-item">
+          <img src="/img/dog2.jpg" alt="Perros adorables">
+        </div>
+        <div class="collection-item">
+          <img src="/img/cat.jpg" alt="Gatos adorables">
+        </div>
+        <div class="collection-item">
+          <img src="https://placebear.com/300/300" alt="Animales salvajes">
+        </div>
+        <div class="collection-item">
+          <img src="/img/fox.jpg" alt="Fox">
+        </div>
+        <div class="collection-item">
+          <img src="/img/funnydogs.jpg" alt="Perritos">
+        </div>
+        <div class="collection-item">
+          <img src="/img/dog.jpg" alt="Divertidos">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="/condiciones.html">Condiciones de servicio</a>
+        <a>----</a>
+        <a href="/privacidad.html">Política de privacidad</a>
+      </div>
+      <p class="footer-text">© 2024 Pawzy. Inspirado en Pinterest.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- 🔥 Banner de Cookies -->
+<!-- <div th:if="${cookieConsent == null}" id="cookieBanner" class="cookie-banner">
+  <p>Usamos cookies para mejorar tu experiencia en Pawzy. ¿Aceptas nuestro uso de cookies?</p>
+  <div class="cookie-buttons">
+    <form th:action="@{/cookies/acceptCookies}" method="post">
+      <button type="submit" id="acceptCookies">Aceptar</button>
+    </form>
+    <form th:action="@{/cookies/declineCookies}" method="post">
+      <button type="submit" id="declineCookies">Rechazar</button>
+    </form>
+  </div>
+  <a th:href="@{/politica-cookies}">Más información</a>
+</div> -->
+
+
+<!-- JavaScript
+<script src="/js/script.js"></script>
+<script src="/js/cookiesindex.js"></script> -->
+
+<!-- Menú lateral para móviles -->
+<div id="mobile-menu" class="side-menu">
+  <button class="close-menu" onclick="toggleMenu()">✖</button>
+  <a th:href="@{/auth/login}" class="nav-button">Iniciar sesión</a>
+  <a th:href="@{/auth/register}" class="nav-button nav-button--outline">Registrarse</a>
+</div>
+
+<!-- Script del menu en dispositivos móviles -->
+<script>
+  function toggleMenu() {
+    var menu = document.getElementById("mobile-menu");
+
+    // Verifica si el menú está abierto o cerrado
+    if (menu.style.display === "block") {
+      menu.style.display = "none";  // Cierra el menú
+    } else {
+      menu.style.display = "block"; // Abre el menú
+    }
+  }
+</script>
+
+</body>
+</html>

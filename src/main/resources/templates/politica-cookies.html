@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Preferencias de Cookies</title>
+  <link rel="stylesheet" href="/css/cookies.css">
+</head>
+<body>
+
+<div class="cookie-container">
+  <!-- 📜 Barra lateral de navegación de cookies -->
+  <div class="cookie-sidebar">
+    <h1 class="cookie-title">Pawzy</h1>
+    <h2 class="cookie-subtitle">Centro de preferencia de la privacidad</h2>
+    <ul class="cookie-menu">
+      <li class="cookie-tab active" data-tab="esenciales">Cookies esenciales</li>
+      <li class="cookie-tab" data-tab="analiticas">Cookies analíticas</li>
+      <li class="cookie-tab" data-tab="publicitarias">Cookies publicitarias</li>
+    </ul>
+  </div>
+
+  <!-- 📜 Contenido principal de cookies -->
+  <div class="cookie-content">
+    <div class="cookie-info">
+      <h2>POLÍTICA SOBRE COOKIES</h2>
+      <p>
+        Pawzy utiliza cookies y otras tecnologías similares, propias y de terceros, para fines funcionales
+        (permitiendo la navegación en la web) y analíticos (para conocer el funcionamiento y uso de la web),
+        así como para mostrarte publicidad (tanto general como personalizada en base a un perfil elaborado a
+        partir de tus hábitos de navegación).
+      </p>
+      <p>
+        Para administrar o deshabilitar estas cookies, haz clic en "Más información".<strong>Las cookies necesarias</strong>
+        garantizan que el contenido se carga eficientemente y permiten el correcto funcionamiento de los servicios.
+      </p>
+    </div>
+
+    <!-- 🔹 Sección de Cookies Esenciales -->
+    <div id="esenciales" class="cookie-section active">
+      <h2>Cookies esenciales</h2>
+      <p>
+        Estas cookies son necesarias para facilitar la correcta navegación por nuestro sitio web y aseguran que el contenido se carga eficientemente,
+        permitiendo la eficiente utilización de las diferentes opciones o servicios que existen.
+      </p>
+    </div>
+
+    <!-- 🔹 Sección de Cookies Analíticas -->
+    <div id="analiticas" class="cookie-section">
+      <h2>Cookies analíticas</h2>
+      <p>
+        Estas cookies son propias o de terceros y nos permiten realizar el seguimiento y análisis del comportamiento de los usuarios
+        de nuestro sitio web.
+      </p>
+      <label><input type="checkbox" id="analyticsCookies" th:checked="${analyticsConsent}"> Habilitar Cookies Analíticas</label>
+    </div>
+
+    <!-- 🔹 Sección de Cookies Publicitarias -->
+    <div id="publicitarias" class="cookie-section">
+      <h2>Cookies publicitarias</h2>
+      <p>
+        Permiten mostrar anuncios personalizados y realizar seguimiento de interacciones con contenido publicitario.
+      </p>
+      <label><input type="checkbox" id="adsCookies" th:checked="${adsConsent}"> Habilitar Cookies Publicitarias</label>
+    </div>
+
+    <!-- 🔹 Botones de acción -->
+    <div class="cookie-actions">
+      <form th:action="@{/cookies/savePreferences}" method="post">
+        <button type="submit" id="saveCookies" class="cookie-btn primary">Confirmar mis preferencias</button>
+      </form>
+      <form th:action="@{/cookies/rejectAllCookies}" method="post">
+        <button type="submit" id="rejectCookies" class="cookie-btn secondary">Rechazarlas todas</button>
+      </form>
+      <form th:action="@{/cookies/acceptAllCookies}" method="post">
+        <button type="submit" id="acceptCookies" class="cookie-btn secondary">Permitirlas todas</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const banner = document.getElementById('cookie-banner');
+    const acceptButton = document.getElementById('acceptCookies');
+    const rejectButton = document.getElementById('rejectCookies');
+    const saveButton = document.getElementById('saveCookies');
+
+    // Verifica si la cookie ya está aceptada o rechazada
+    const cookieConsent = document.cookie.indexOf('cookieConsent=true') !== -1;
+    const analyticsConsent = document.cookie.indexOf('analyticsConsent=true') !== -1;
+    const adsConsent = document.cookie.indexOf('adsConsent=true') !== -1;
+
+    // Ocultar el banner si ya se dio el consentimiento
+    if (cookieConsent) {
+      banner.style.display = 'none';
+    }
+
+    // Si se acepta las cookies, se configura la cookie correspondiente y se oculta el banner
+    if (acceptButton) {
+      acceptButton.addEventListener('click', function () {
+        document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24;
+        document.cookie = "analyticsConsent=true; path=/; max-age=" + 60 * 60 * 24;
+        document.cookie = "adsConsent=true; path=/; max-age=" + 60 * 60 * 24;
+        banner.style.display = 'none';  // Ocultar banner
+        window.location.href = '/posts';  // Redirigir al feed
+      });
+    }
+
+    // Si se rechaza todas las cookies, se configura la cookie de rechazo y se oculta el banner
+    if (rejectButton) {
+      rejectButton.addEventListener('click', function () {
+        document.cookie = "cookieConsent=false; path=/; max-age=" + 60 * 60 * 24;
+        document.cookie = "analyticsConsent=false; path=/; max-age=" + 60 * 60 * 24;
+        document.cookie = "adsConsent=false; path=/; max-age=" + 60 * 60 * 24;
+        banner.style.display = 'none';  // Ocultar banner
+        window.location.href = '/posts';  // Redirigir al feed
+      });
+    }
+
+    // Guardar preferencias individuales de cookies
+    if (saveButton) {
+      saveButton.addEventListener('click', function () {
+        const analyticsEnabled = document.getElementById('analyticsCookies').checked;
+        const adsEnabled = document.getElementById('adsCookies').checked;
+
+        document.cookie = "analyticsConsent=" + analyticsEnabled + "; path=/; max-age=" + 60 * 60 * 24;
+        document.cookie = "adsConsent=" + adsEnabled + "; path=/; max-age=" + 60 * 60 * 24;
+
+        banner.style.display = 'none';  // Ocultar banner
+        window.location.href = '/posts';  // Redirigir al feed
+      });
+    }
+
+    // Función para cambiar de sección
+    const tabs = document.querySelectorAll('.cookie-tab');
+    const sections = document.querySelectorAll('.cookie-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        tabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

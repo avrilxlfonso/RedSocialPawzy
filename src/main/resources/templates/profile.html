@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Pawzy</title>
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body class="${isDaltonismEnabled ? 'daltonism-active' : ''}">
+
+<div class="profile-container">
+  <header class="profile-header">
+    <a th:href="@{/posts}" class="nav-button nav-back-button">Volver</a>
+    <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
+    <p th:text="${user != null ? user.email : 'Correo electrónico'}">Correo electrónico</p>
+
+    <a href="/auth/logout">
+      <button>Cerrar Sesión</button>
+    </a>
+  </header>
+
+  <!-- ✅ Formulario para subir una imagen -->
+  <section class="upload-section">
+    <form th:action="@{/posts/create}" method="post" enctype="multipart/form-data">
+      <div class="upload-box">
+        <label for="fileInput">
+          <i class="fas fa-upload"></i>
+          <p>Elige un archivo o arrástralo aquí</p>
+        </label>
+        <input type="file" name="image" id="fileInput" required>
+      </div>
+
+      <div class="description-container">
+        <h3>Descripción</h3>
+        <textarea name="description" id="descriptionInput" placeholder="Añade una descripción detallada" required></textarea>
+        <button type="submit">Publicar</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ✅ Publicaciones del usuario -->
+  <section class="posts-section">
+    <h2>Mis Publicaciones</h2>
+
+    <p th:if="${posts == null or #lists.isEmpty(posts)}">No tienes publicaciones aún.</p>
+
+    <div th:if="${posts != null and not #lists.isEmpty(posts)}" class="post-gallery">
+      <div th:each="post : ${posts}" class="post-item">
+        <img th:src="@{${post.imageUrl}}" alt="Publicación">
+        <p th:text="${post.description}"></p>
+
+        <!-- Formulario para editar la descripción -->
+        <form th:action="@{/posts/edit/{postId}(postId=${post.id})}" method="post" class="edit-form">
+          <textarea name="description" placeholder="Edita tu descripción" th:text="${post.description}" required></textarea>
+          <button type="submit" class="edit-button">Guardar cambios</button>
+        </form>
+
+        <!-- Formulario para eliminar la publicación -->
+        <form th:action="@{/auth/deletePost/{postId}(postId=${post.id})}" method="post" class="delete-form">
+          <button type="submit" class="delete-button">🗑 Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
