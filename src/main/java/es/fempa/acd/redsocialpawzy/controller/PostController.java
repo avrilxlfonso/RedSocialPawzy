@@ -23,7 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * Controller class for handling post-related requests.
+ * Controlador para manejar las solicitudes relacionadas con las publicaciones.
+ *
+ * Este controlador gestiona la creación, edición, visualización y búsqueda de publicaciones.
  */
 @Controller
 @RequestMapping("/posts")
@@ -36,15 +38,16 @@ public class PostController {
     private UserService userService;
 
     /**
-     * Retrieves all posts and displays them in the feed view.
+     * Recupera todas las publicaciones y las muestra en la vista de feed.
      *
-     * @param model the model to add attributes to
-     * @return the view with the posts
+     * @param model El modelo para agregar atributos a la vista.
+     * @return La vista con las publicaciones.
      */
     @GetMapping
     public String getPosts(Model model) {
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String email = ((UserDetails) principal).getUsername();
@@ -62,10 +65,10 @@ public class PostController {
     }
 
     /**
-     * Retrieves posts of the authenticated user and displays them in the profile view.
+     * Recupera las publicaciones del usuario autenticado y las muestra en la vista de perfil.
      *
-     * @param model the model to add attributes to
-     * @return the view with the user's posts
+     * @param model El modelo para agregar atributos a la vista.
+     * @return La vista con las publicaciones del usuario.
      */
     @GetMapping("/user")
     public String getUserPosts(Model model) {
@@ -89,13 +92,12 @@ public class PostController {
         return "redirect:/auth/login";
     }
 
-
     /**
-     * Searches for posts by username and displays them in the feed view.
+     * Busca publicaciones por nombre de usuario y las muestra en la vista de feed.
      *
-     * @param username the username to search for
-     * @param model the model to add attributes to
-     * @return the view with the search results
+     * @param username El nombre de usuario para buscar.
+     * @param model El modelo para agregar atributos a la vista.
+     * @return La vista con los resultados de la búsqueda.
      */
     @GetMapping("/search")
     public String searchPostsByUser(@RequestParam("username") String username, Model model) {
@@ -114,8 +116,14 @@ public class PostController {
         return "feed";
     }
 
-
-
+    /**
+     * Edita la descripción de una publicación existente.
+     *
+     * @param postId El ID de la publicación a editar.
+     * @param description La nueva descripción de la publicación.
+     * @param session La sesión HTTP para almacenar los posts actualizados.
+     * @return Redirige a la vista de perfil con los cambios reflejados.
+     */
     @PostMapping("/edit/{postId}")
     public String editPostDescription(@PathVariable Long postId, @RequestParam String description, HttpSession session) {
         postService.updatePostDescription(postId, description);
@@ -134,10 +142,13 @@ public class PostController {
         return "redirect:/posts/user"; // Redirige a la vista de perfil correctamente
     }
 
-
-
-
-
+    /**
+     * Crea una nueva publicación con una imagen y una descripción.
+     *
+     * @param image La imagen de la publicación.
+     * @param description La descripción de la publicación.
+     * @return Redirige a la vista de perfil tras crear la publicación.
+     */
     @PostMapping("/create")
     public String createPost(
             @RequestParam("image") MultipartFile image,
