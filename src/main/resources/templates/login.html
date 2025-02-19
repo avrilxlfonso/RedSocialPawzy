@@ -26,6 +26,8 @@
     </div>
     <h2>Iniciar Sesión</h2>
 
+    <p th:if="${success}" class="success-message" th:text="${success}"></p>
+
     <form th:action="@{/auth/login}" method="post">
         <label>Correo Electrónico</label>
         <input type="email" name="username" placeholder="Tu correo" required>
@@ -42,6 +44,11 @@
     <p>¿No tienes cuenta? <a href="/auth/register">Regístrate aquí</a></p>
 </div>
 
+<!-- ✅ Notificación flotante -->
+<div id="notification" class="notification" style="display: none;">
+</div>
+
+
 <!-- Menú lateral para móviles -->
 <div id="mobile-menu" class="side-menu">
     <button class="close-menu" onclick="toggleMenu()">✖</button>
@@ -52,9 +59,62 @@
 <script>
     function toggleMenu() {
         var menu = document.getElementById("mobile-menu");
-
-        // Alterna la clase 'open' para abrir/cerrar el menú
         menu.classList.toggle('open');
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const notificationElement = document.querySelector(".success-message");
+
+        if (notificationElement) {
+            const message = notificationElement.textContent;
+            showNotification(message);
+            showPushNotification(message);
+        }
+    });
+
+    function showNotification(message) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.style.display = "block";
+        notification.style.opacity = "1"; // ✅ Se asegura de que la opacidad sea total
+        notification.style.position = "fixed"; // ✅ Se mantiene fijo en la pantalla
+        notification.style.bottom = "20px"; // ✅ Se coloca en la parte inferior
+        notification.style.right = "20px"; // ✅ Se alinea a la derecha
+        notification.style.maxWidth = "300px"; // ✅ Evita que ocupe todo el ancho de la pantalla
+        notification.style.padding = "10px"; // ✅ Ajusta el padding para mejor apariencia
+
+        setTimeout(() => {
+            notification.style.opacity = "0";
+            setTimeout(() => {
+                notification.style.display = "none";
+                notification.style.opacity = "1";
+            }, 500);
+        }, 3000);
+    }
+
+    function showPushNotification(message) {
+        // Verificar si el navegador admite notificaciones
+        if (!("Notification" in window)) {
+            console.log("Este navegador no soporta notificaciones.");
+            return;
+        }
+
+        // Pedir permiso para enviar notificaciones
+        if (Notification.permission === "granted") {
+            new Notification("Pawzy 🐾", {
+                body: message,
+                icon: "/img/animals.png"
+            });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    new Notification("Pawzy 🐾", {
+                        body: message,
+                        icon: "/img/animals.png"
+                    });
+                }
+            });
+        }
     }
 </script>
 

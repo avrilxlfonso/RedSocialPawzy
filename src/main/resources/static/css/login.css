@@ -251,3 +251,24 @@ a:hover {
 .side-menu {
     padding-top: 50px; /* Espacio adecuado para que los botones no estén cerca de la "X" */
 }
+
+
+.notification {
+    position: fixed; /* ✅ Fija la posición en la ventana */
+    bottom: 20px; /* ✅ Se coloca en la parte inferior */
+    right: 20px;  /* ✅ Se alinea a la derecha */
+    background-color: #28a745; /* ✅ Verde éxito */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    max-width: 300px; /* ✅ Establece un ancho máximo */
+    text-align: center; /* ✅ Centra el texto dentro de la notificación */
+    white-space: nowrap; /* ✅ Evita saltos de línea innecesarios */
+    overflow: hidden;
+    text-overflow: ellipsis; /* ✅ Agrega "..." si el texto es muy largo */
+}
+

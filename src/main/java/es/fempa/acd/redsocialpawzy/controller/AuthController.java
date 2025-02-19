@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,21 +64,22 @@ public class AuthController {
      * Maneja el registro de nuevos usuarios.
      *
      * @param request Datos del usuario ingresados en el formulario.
-     * @param model Modelo para agregar atributos a la vista.
+     *Se mapean automáticamente con el objeto AuthRequest.
+     * @param redirectAttributes Atributos para redirigir a la vista de registro o inicio de sesión.
      * @return Vista de inicio de sesión si el registro es exitoso, o vista de registro si hay un error.
      */
     @PostMapping("/register")
-    public String register(@ModelAttribute AuthRequest request, Model model) {
+    public String register(@ModelAttribute AuthRequest request, RedirectAttributes redirectAttributes) {
         Optional<User> existingUser = userService.findByEmail(request.getEmail()); // Verifica si el usuario ya está registrado
 
         if (existingUser.isPresent()) { // Si el usuario ya existe, muestra un error
-            model.addAttribute("error", "⚠️ El correo ya está registrado.");
-            return "register"; // Redirige a la vista de registro
+            redirectAttributes.addFlashAttribute("error", "⚠️ El correo ya está registrado.");
+            return "redirect:/auth/register"; // Redirige a la vista de registro
         }
 
         userService.registerUser(request.getUsername(), request.getEmail(), request.getPassword()); // Registra el usuario en la base de datos
-        model.addAttribute("success", "✅ Registro exitoso. ¡Ahora inicia sesión!"); // Mensaje de éxito
-        return "login"; // Redirige a la vista de inicio de sesión
+        redirectAttributes.addFlashAttribute("success", "✅ Registro exitoso. ¡Ahora inicia sesión!"); // Mensaje de éxito
+        return "redirect:/auth/login"; // Redirige a la vista de inicio de sesión
     }
 
     /**
