@@ -47,7 +47,12 @@
           <i class="fas fa-upload"></i>
           <p>Elige un archivo o arrástralo aquí</p>
         </label>
-        <input type="file" name="image" id="fileInput" required>
+        <!-- ✅ Imagen de vista previa (Solo visual) -->
+        <img id="previewImage" src="" alt="Vista previa" style="display: none; width: 300px; height: 300px; object-fit: cover; border-radius: 10px; margin-top: 10px;">
+
+        <!-- ✅ Nombre del archivo (Solo visual) -->
+        <p id="fileName" style="display: none; font-size: 14px; color: gray; margin-top: 5px;"></p>
+        <input type="file" name="image" id="fileInput" accept="image/*" required>
       </div>
 
       <div class="description-container">
@@ -83,6 +88,60 @@
     </div>
   </section>
 </div>
+
+<script>
+  //Este JS es solo para la parte visual y funcionalidad de poder arrastrar una imagen
+
+  // Código para arrastrar imágenes
+  const fileInput = document.getElementById('fileInput');
+  const uploadBox = document.querySelector('.upload-box');
+
+  uploadBox.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    uploadBox.classList.add('dragover');
+  });
+
+  uploadBox.addEventListener('dragleave', () => {
+    uploadBox.classList.remove('dragover');
+  });
+
+  uploadBox.addEventListener('drop', (event) => {
+    event.preventDefault();
+    uploadBox.classList.remove('dragover');
+    fileInput.files = event.dataTransfer.files;
+  });
+
+  // Código adicional para vista previa de imagen y nombre del archivo
+  document.addEventListener("DOMContentLoaded", function () {
+    const previewImage = document.getElementById("previewImage");
+    const fileName = document.getElementById("fileName");
+
+    function previewFile(file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        previewImage.src = reader.result;
+        previewImage.style.display = "block"; // Muestra la imagen
+        fileName.textContent = file.name; // Muestra el nombre del archivo
+        fileName.style.display = "block"; // Muestra el texto del nombre
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 🟢 Cuando el usuario selecciona una imagen
+    fileInput.addEventListener("change", function () {
+      if (fileInput.files.length > 0) {
+        previewFile(fileInput.files[0]);
+      }
+    });
+
+    // Cuando el usuario arrastra una imagen
+    uploadBox.addEventListener("drop", function (event) {
+      if (event.dataTransfer.files.length > 0) {
+        previewFile(event.dataTransfer.files[0]);
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
