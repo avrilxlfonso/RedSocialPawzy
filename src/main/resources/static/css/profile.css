@@ -239,6 +239,26 @@ body {
     cursor: pointer;
 }
 
+/* ✅ Estilizar el input file con una clase específica */
+.custom-file-input {
+    background-color: #cd4f55; /* Marrón */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    display: block;
+    margin: 5px auto;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.custom-file-input:hover {
+    background-color: #701921; /* Marrón más claro al pasar el mouse */
+}
+
 
 /* Efecto hover */
 .edit-btn:hover {
@@ -538,3 +558,5 @@ body {
 .comment-count {
     font-style: italic;
 }
+
+

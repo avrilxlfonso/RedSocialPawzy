@@ -23,9 +23,12 @@
 
     <!-- ✅ Formulario para subir nueva imagen de perfil -->
     <form th:action="@{/auth/updateProfileImage}" method="post" enctype="multipart/form-data">
-      <input type="file" name="image" accept="image/*" required>
-      <button type="submit">Actualizar Imagen</button>
+      <div class="file-upload-container">
+        <input type="file" name="image" class="custom-file-input" accept="image/*" required>
+        <button type="submit">Actualizar Imagen</button>
+      </div>
     </form>
+
 
     <!-- Nombre y correo del usuario -->
     <h1 th:text="${user != null ? user.username : 'Usuario'}">Usuario</h1>
