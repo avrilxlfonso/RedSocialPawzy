@@ -5,7 +5,6 @@ import es.fempa.acd.redsocialpawzy.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 
 /**
@@ -13,36 +12,13 @@ import java.util.List;
  */
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    /**
-     * Finds posts by the associated user.
-     *
-     * @param user the user to find posts for
-     * @return a list of posts for the specified user
-     */
     List<Post> findByUser(User user);
 
-    /**
-     * Finds all posts with their associated likes.
-     *
-     * @return a list of posts with their likes
-     */
-    @Query("SELECT p FROM Post p LEFT JOIN FETCH p.likes")
-    List<Post> findAllWithLikes();
+    @Query("SELECT p FROM Post p LEFT JOIN FETCH p.likes WHERE p.privatePost = false")
+    List<Post> findAllPublicPostsWithLikes(); // Solo devuelve posts públicos
 
-    /**
-     * Finds posts by the username of the associated user.
-     *
-     * @param username the username to find posts for
-     * @return a list of posts for the specified username
-     */
-    List<Post> findByUserUsername(String username);
+    List<Post> findByUserUsernameAndPrivatePostFalse(String username); // Solo devuelve posts públicos de un usuario
 
-    /**
-     * Finds the author of a post by the post ID.
-     *
-     * @param postId the ID of the post
-     * @return the user who authored the post
-     */
     @Query("SELECT p.user FROM Post p WHERE p.id = :postId")
     User findAuthorByPostId(@Param("postId") Long postId);
 }

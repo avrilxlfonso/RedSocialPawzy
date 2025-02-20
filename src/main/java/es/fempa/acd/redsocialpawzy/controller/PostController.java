@@ -44,7 +44,7 @@ public class PostController {
      */
     @GetMapping
     public String getPosts(Model model) {
-        List<Post> posts = postService.getAllPosts(); // Obtiene todas las publicaciones.
+        List<Post> posts = postService.getAllPublicPosts(); // Obtiene todas las publicaciones.
         model.addAttribute("posts", posts);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -100,7 +100,7 @@ public class PostController {
      */
     @GetMapping("/search")
     public String searchPostsByUser(@RequestParam("username") String username, Model model) {
-        List<Post> posts = postService.findPostsByUsername(username);
+        List<Post> posts = postService.findPublicPostsByUsername(username);
         model.addAttribute("posts", posts);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -151,7 +151,8 @@ public class PostController {
     @PostMapping("/create")
     public String createPost(
             @RequestParam("image") MultipartFile image,
-            @RequestParam("description") String description) {
+            @RequestParam("description") String description,
+            @RequestParam(name = "privatePost", defaultValue = "false") boolean privatePost) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -166,41 +167,37 @@ public class PostController {
             return "redirect:/auth/login";
         }
 
-        // Define el directorio donde se guardarán las imágenes subidas
         String projectRoot = System.getProperty("user.dir");
         String uploadDir = projectRoot + File.separator + "uploads";
 
-        // Verifica si el directorio de carga existe, si no, lo crea
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
 
-        // Genera un nombre de archivo único para evitar conflictos
         String fileExtension = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
         String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
 
-        // Crea la ruta completa del archivo
         Path destinationPath = Paths.get(uploadDir, uniqueFilename);
         File destinationFile = destinationPath.toFile();
 
         try {
-            image.transferTo(destinationFile); // Guarda la imagen en el directorio
+            image.transferTo(destinationFile);
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:/auth/profile?error=upload_failed"; // Redirige con un mensaje de error en caso de fallo
+            return "redirect:/auth/profile?error=upload_failed";
         }
 
-        // Genera la URL relativa de la imagen para acceder desde la web
         String imageUrl = "/uploads/" + uniqueFilename;
 
-        // Crea la nueva publicación y la guarda en la base de datos
         Post post = new Post();
         post.setImageUrl(imageUrl);
         post.setDescription(description);
         post.setUser(user);
+        post.setPrivatePost(privatePost);
         postService.createPost(post);
 
-        return "redirect:/auth/profile"; // Redirige a la página de perfil tras crear la publicación.
+        return "redirect:/auth/profile";
     }
+
 }

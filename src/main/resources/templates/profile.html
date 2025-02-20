@@ -61,6 +61,14 @@
       <div class="description-container">
         <h3>Descripción</h3>
         <textarea name="description" id="descriptionInput" placeholder="Añade una descripción detallada" required></textarea>
+        <!-- Selector de privacidad -->
+        <div class="privacy-container">
+          <label for="privatePost">Visibilidad:</label>
+          <select name="privatePost" id="privatePost">
+            <option value="false">Público</option>
+            <option value="true">Privado</option>
+          </select>
+        </div>
         <button class="description-button" type="submit">Publicar</button>
       </div>
     </form>
@@ -76,6 +84,14 @@
       <div th:each="post : ${posts}" class="post-item">
         <img th:src="@{${post.imageUrl}}" alt="Publicación">
         <p th:text="${post.description}"></p>
+
+        <!-- ✅ Muestra si la publicación es pública o privada -->
+        <p class="post-privacy">
+          <strong>Visibilidad:</strong>
+          <span th:text="${post.privatePost ? 'Privado' : 'Público'}"
+                th:classappend="${post.privatePost ? 'private' : 'public'}">
+                </span>
+        </p>
 
         <!-- Formulario para editar la descripción -->
         <form th:action="@{/posts/edit/{postId}(postId=${post.id})}" method="post" class="edit-form">

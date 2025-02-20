@@ -239,6 +239,21 @@ body {
     cursor: pointer;
 }
 
+/* Estilos para la visibilidad de los posts */
+.post-privacy {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.post-privacy .public {
+    color: green;
+}
+
+.post-privacy .private {
+    color: red;
+}
+
 /* ✅ Estilizar el input file con una clase específica */
 .custom-file-input {
     background-color: #cd4f55; /* Marrón */
