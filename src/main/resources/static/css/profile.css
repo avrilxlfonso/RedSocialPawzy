@@ -585,3 +585,59 @@ body {
 }
 
 
+/* Estilo general para el select */
+.visibility-select {
+    padding: 8px 15px; /* Espaciado adecuado */
+    font-size: 16px; /* Fuente más grande y legible */
+    border-radius: 20px; /* Bordes redondeados para un look más suave */
+    background-color: #240808; /* Fondo oscuro (color rojo burdeos oscuro) */
+    border: 2px solid #9e4f5f; /* Contorno en tono burdeos claro */
+    color: #ffffff; /* Color del texto en blanco */
+    cursor: pointer; /* Indica que es interactivo */
+    width: 200px; /* Ancho ajustado */
+    outline: none; /* Elimina el borde azul de enfoque */
+    transition: all 0.3s ease; /* Transición suave */
+    position: relative; /* Para colocar la flecha */
+}
+
+/* Estilo al hacer foco */
+.visibility-select:focus {
+    border-color: #7a3d47; /* Un tono más oscuro de burdeos */
+    box-shadow: 0 0 5px rgba(154, 79, 95, 0.6); /* Resalta el contorno al enfocarse */
+    background-color: #5c2a2a; /* Fondo burdeos suave cuando está enfocado */
+}
+
+/* Flecha del desplegable */
+.visibility-select::after {
+    content: ' ▼'; /* Agrega la flecha hacia abajo */
+    position: absolute;
+    right: 15px; /* Alinea la flecha a la derecha */
+    top: 50%; /* Centra la flecha verticalmente */
+    transform: translateY(-50%); /* Ajusta la flecha al centro */
+    font-size: 18px; /* Tamaño de la flecha */
+    color: #ffffff; /* Color blanco para la flecha */
+    pointer-events: none; /* No interferir con el clic */
+}
+
+/* Estilo para las opciones dentro del select */
+.visibility-select option {
+    font-size: 14px;
+    padding: 10px;
+    background-color: #a65353; /* Fondo en tono rojo burdeos para las opciones */
+    color: #ffffff; /* Color del texto en blanco */
+}
+
+/* Fondo burdeos suave para la opción seleccionada */
+.visibility-select option:checked {
+    background-color: #9e4f5f; /* Burdeos suave para la opción seleccionada */
+}
+
+/* Personalización de las opciones al hacer hover */
+.visibility-select option:hover {
+    background-color: #f08a8a; /* Fondo suave para las opciones al pasar el mouse */
+}
+
+/* Eliminar la flecha predeterminada en los navegadores */
+.visibility-select::-ms-expand {
+    display: none; /* En Internet Explorer */
+}

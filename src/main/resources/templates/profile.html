@@ -96,7 +96,7 @@
         <!-- Formulario para cambiar la visibilidad -->
         <form th:action="@{/posts/updateVisibility/{postId}(postId=${post.id})}" method="post">
           <label th:for="'visibility-' + ${post.id}">Visibilidad:</label>
-          <select th:id="'visibility-' + ${post.id}" name="privatePost" onchange="this.form.submit()">
+          <select th:id="'visibility-' + ${post.id}" name="privatePost" onchange="this.form.submit()" class="visibility-select">
             <option value="false" th:selected="${!post.privatePost}">Público</option>
             <option value="true" th:selected="${post.privatePost}">Privado</option>
           </select>
