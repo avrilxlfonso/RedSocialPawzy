@@ -60,4 +60,13 @@ public class PostService {
         return postRepository.findPublicPostsByUser(user);
     }
 
+    public void updatePostVisibility(Long postId, boolean privatePost) {
+        Optional<Post> postOptional = postRepository.findById(postId);
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            post.setPrivatePost(privatePost);
+            postRepository.save(post);  // Guarda el cambio en la base de datos
+        }
+    }
+
 }

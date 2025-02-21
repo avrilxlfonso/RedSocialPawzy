@@ -200,4 +200,11 @@ public class PostController {
         return "redirect:/auth/profile";
     }
 
+    @PostMapping("/updateVisibility/{postId}")
+    public String updatePostVisibility(@PathVariable Long postId, @RequestParam("privatePost") boolean privatePost) {
+        postService.updatePostVisibility(postId, privatePost);
+        return "redirect:/auth/profile"; // Redirige al perfil del usuario
+    }
+
+
 }

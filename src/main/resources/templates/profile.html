@@ -93,6 +93,15 @@
                 </span>
         </p>
 
+        <!-- Formulario para cambiar la visibilidad -->
+        <form th:action="@{/posts/updateVisibility/{postId}(postId=${post.id})}" method="post">
+          <label th:for="'visibility-' + ${post.id}">Visibilidad:</label>
+          <select th:id="'visibility-' + ${post.id}" name="privatePost" onchange="this.form.submit()">
+            <option value="false" th:selected="${!post.privatePost}">Público</option>
+            <option value="true" th:selected="${post.privatePost}">Privado</option>
+          </select>
+        </form>
+
         <!-- Formulario para editar la descripción -->
         <form th:action="@{/posts/edit/{postId}(postId=${post.id})}" method="post" class="edit-form">
           <textarea name="description" placeholder="Edita tu descripción" th:text="${post.description}" required></textarea>
