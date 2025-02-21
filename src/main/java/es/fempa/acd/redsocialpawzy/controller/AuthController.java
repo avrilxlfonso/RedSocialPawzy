@@ -167,7 +167,7 @@ public class AuthController {
             return "redirect:/posts";
         }
 
-        List<Post> posts = postService.getPostsByUser(user); // Obtiene las publicaciones del usuario
+        List<Post> posts = postService.getPublicPostsByUser(user); // ✅ Solo publicaciones públicas
         int totalLikes = postService.getTotalLikesByUser(user); // Obtiene el total de likes en sus publicaciones
 
         model.addAttribute("user", user);

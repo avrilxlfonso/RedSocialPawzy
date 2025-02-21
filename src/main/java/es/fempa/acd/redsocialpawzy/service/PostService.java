@@ -55,4 +55,9 @@ public class PostService {
             postRepository.save(post);
         }
     }
+
+    public List<Post> getPublicPostsByUser(User user) {
+        return postRepository.findPublicPostsByUser(user);
+    }
+
 }
