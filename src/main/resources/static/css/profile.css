@@ -254,6 +254,16 @@ body {
     color: red;
 }
 
+.edit-form textarea {
+    width: 80%; /* Ajusta este valor según el tamaño deseado */
+    max-width: 220px; /* Define un ancho máximo */
+    min-height: 80px; /* Evita que sea demasiado pequeño */
+    padding: 10px;
+    border-radius: 8px;
+    resize: vertical; /* Permite redimensionarlo verticalmente */
+}
+
+
 /* ✅ Estilizar el input file con una clase específica */
 .custom-file-input {
     background-color: #cd4f55; /* Marrón */
